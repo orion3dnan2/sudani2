@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, TextInput, Image } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { IconSymbol } from '@/components/ui/IconSymbol';
@@ -49,6 +49,15 @@ export default function HomeScreen() {
       <View style={styles.heroSection}>
         <Text style={styles.heroTitle}>القفة السودانية</Text>
         <Text style={styles.heroSubtitle}>سوق وخدمات ومنتجات السودان في الخليج والعالم</Text>
+        
+        {/* Background Image */}
+        <View style={styles.backgroundImageContainer}>
+          <Image 
+            source={require('@/attached_assets/back_1754910418880.jpeg')} 
+            style={styles.backgroundImage}
+            resizeMode="cover"
+          />
+        </View>
 
         {/* Action Buttons */}
         <View style={styles.actionButtons}>
@@ -271,6 +280,27 @@ const styles = StyleSheet.create({
     paddingVertical: 60,
     paddingHorizontal: 20,
     alignItems: 'center',
+    position: 'relative',
+  },
+  backgroundImageContainer: {
+    width: '100%',
+    height: 200,
+    marginTop: 20,
+    marginBottom: 20,
+    borderRadius: 16,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
   },
   heroTitle: {
     fontSize: 36,
