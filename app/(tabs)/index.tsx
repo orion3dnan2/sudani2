@@ -57,6 +57,7 @@ export default function HomeScreen() {
             style={styles.backgroundImage}
             resizeMode="cover"
           />
+          <View style={styles.overlay} />
         </View>
 
         {/* Action Buttons */}
@@ -275,32 +276,31 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   heroSection: {
-    backgroundColor: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
-    backgroundColor: '#1e293b',
-    paddingVertical: 60,
+    paddingVertical: 80,
     paddingHorizontal: 20,
     alignItems: 'center',
     position: 'relative',
+    minHeight: 400,
   },
   backgroundImageContainer: {
-    width: '100%',
-    height: 200,
-    marginTop: 20,
-    marginBottom: 20,
-    borderRadius: 16,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
   },
   backgroundImage: {
     width: '100%',
     height: '100%',
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(30, 41, 59, 0.7)', // Dark overlay for better text readability
   },
   heroTitle: {
     fontSize: 36,
