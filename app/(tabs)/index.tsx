@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity, TextInput } from 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { router } from 'expo-router';
 
 export default function HomeScreen() {
   return (
@@ -40,7 +41,13 @@ export default function HomeScreen() {
           <TouchableOpacity style={styles.primaryButton}>
             <Text style={styles.primaryButtonText}>المتاجر قريباً</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.secondaryButton}>
+          <TouchableOpacity 
+            style={styles.secondaryButton}
+            onPress={() => router.push('/auth')}
+          >
+            <Text style={styles.secondaryButtonText}>تسجيل الدخول</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.tertiaryButton}>
             <Text style={styles.secondaryButtonText}>اكتشف السودان</Text>
           </TouchableOpacity>
         </View>

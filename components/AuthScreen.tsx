@@ -22,8 +22,12 @@ export function LoginScreen({ onLogin }: AuthScreenProps) {
           </View>
         </View>
 
+        <View style={styles.loginIcon}>
+          <IconSymbol name="house.fill" size={32} color="#fff" />
+        </View>
+        
         <Text style={styles.title}>تسجيل الدخول</Text>
-        <Text style={styles.subtitle}>أدخل بيانات تسجيل الدخول</Text>
+        <Text style={styles.subtitle}>أدخل بيانات تسجيل دخولك</Text>
 
         <View style={styles.formContainer}>
           <View style={styles.inputGroup}>
@@ -70,20 +74,20 @@ export function LoginScreen({ onLogin }: AuthScreenProps) {
           <View style={styles.adminCard}>
             <Text style={styles.adminType}>مدير التطبيق (Super Admin)</Text>
             <View style={styles.adminBadge}>
-              <Text style={styles.adminBadgeText}>اسم المستخدم</Text>
+              <Text style={styles.adminBadgeText}>admin</Text>
             </View>
             <View style={styles.adminBadge}>
-              <Text style={styles.adminBadgeText}>كلمة مرور تجريبية</Text>
+              <Text style={styles.adminBadgeText}>123456</Text>
             </View>
           </View>
 
           <View style={styles.adminCard}>
             <Text style={styles.adminType}>صاحب متجر (Merchant)</Text>
             <View style={styles.adminBadge}>
-              <Text style={styles.adminBadgeText}>اسم المستخدم</Text>
+              <Text style={styles.adminBadgeText}>merchant</Text>
             </View>
             <View style={styles.adminBadge}>
-              <Text style={styles.adminBadgeText}>كلمة مرور</Text>
+              <Text style={styles.adminBadgeText}>merchant</Text>
             </View>
           </View>
         </View>
@@ -263,6 +267,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#eff6ff',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  loginIcon: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#3b82f6',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginBottom: 20,
   },
   title: {
     fontSize: 24,
