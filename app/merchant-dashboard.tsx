@@ -62,6 +62,14 @@ export default function MerchantDashboard() {
     router.replace('/(tabs)');
   };
 
+  const handleViewApp = () => {
+    router.push('/(tabs)');
+  };
+
+  const handleViewStore = () => {
+    router.push('/user-store');
+  };
+
   const handleQuickAction = (action: string) => {
     switch (action) {
       case 'store-settings':
@@ -87,12 +95,12 @@ export default function MerchantDashboard() {
       <ThemedView style={styles.header}>
         <View style={styles.headerContent}>
           <View style={styles.headerLeft}>
-            <TouchableOpacity style={styles.storeButton}>
+            <TouchableOpacity style={styles.storeButton} onPress={handleViewStore}>
               <IconSymbol name="paperplane.fill" size={16} color="#10b981" />
               <Text style={styles.storeButtonText}>متجرنا</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.viewStoreButton}>
-              <Text style={styles.viewStoreText}>عرض المتجر</Text>
+            <TouchableOpacity style={styles.viewStoreButton} onPress={handleViewApp}>
+              <Text style={styles.viewStoreText}>عرض التطبيق</Text>
               <IconSymbol name="house.fill" size={16} color="#6b7280" />
             </TouchableOpacity>
           </View>
