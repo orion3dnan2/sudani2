@@ -12,10 +12,25 @@ export default function HomeScreen() {
       {/* Header */}
       <ThemedView style={styles.header}>
         <View style={styles.headerTop}>
-          <Text style={styles.welcomeText}>مرحباً بك في البيت السوداني</Text>
-          <View style={styles.headerIcons}>
-            <TouchableOpacity style={styles.iconButton}>
-              <IconSymbol name="house.fill" size={24} color="#fff" />
+          <View style={styles.logoSection}>
+            <View style={styles.logoContainer}>
+              <Text style={styles.logoText}>SD</Text>
+            </View>
+            <View style={styles.titleSection}>
+              <Text style={styles.mainTitle}>البيت السوداني</Text>
+              <Text style={styles.subtitle}>سوق وخدمات متنوعة</Text>
+            </View>
+          </View>
+          <View style={styles.headerActions}>
+            <TouchableOpacity 
+              style={styles.logoutButton}
+              onPress={() => router.push('/auth')}
+            >
+              <IconSymbol name="arrow.right.square" size={20} color="#fff" />
+              <Text style={styles.logoutText}>تسجيل الخروج</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.profileIcon}>
+              <IconSymbol name="person.fill" size={20} color="#3b82f6" />
             </TouchableOpacity>
           </View>
         </View>
@@ -24,10 +39,10 @@ export default function HomeScreen() {
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
-            placeholder="البحث في البيت السوداني..."
-            placeholderTextColor="#999"
+            placeholder="ابحث في البيت السوداني..."
+            placeholderTextColor="#9ca3af"
           />
-          <IconSymbol name="chevron.right" size={20} color="#666" style={styles.searchIcon} />
+          <IconSymbol name="magnifyingglass" size={18} color="#9ca3af" style={styles.searchIcon} />
         </View>
       </ThemedView>
 
@@ -160,10 +175,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fafc',
   },
   header: {
-    backgroundColor: '#1e293b',
+    backgroundColor: '#fff',
     paddingTop: 50,
     paddingBottom: 20,
     paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e7eb',
   },
   headerTop: {
     flexDirection: 'row',
@@ -171,38 +188,83 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 20,
   },
-  welcomeText: {
+  logoSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  logoContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#3b82f6',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoText: {
     color: '#fff',
     fontSize: 18,
+    fontWeight: 'bold',
+  },
+  titleSection: {
+    alignItems: 'flex-start',
+  },
+  mainTitle: {
+    color: '#1e293b',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'right',
+  },
+  subtitle: {
+    color: '#64748b',
+    fontSize: 12,
+    textAlign: 'right',
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: '#3b82f6',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  logoutText: {
+    color: '#fff',
+    fontSize: 14,
     fontWeight: '600',
   },
-  headerIcons: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-  iconButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255,255,255,0.1)',
+  profileIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: '#f1f5f9',
     justifyContent: 'center',
     alignItems: 'center',
   },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 25,
-    paddingHorizontal: 15,
+    backgroundColor: '#f8fafc',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
   },
   searchInput: {
     flex: 1,
-    height: 50,
+    height: 48,
     fontSize: 16,
     textAlign: 'right',
+    color: '#1e293b',
   },
   searchIcon: {
-    marginLeft: 10,
+    marginLeft: 8,
   },
   heroSection: {
     backgroundColor: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
