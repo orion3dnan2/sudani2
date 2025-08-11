@@ -33,6 +33,10 @@ export default function AdminDashboard() {
     router.replace('/auth');
   };
 
+  const handleGoHome = () => {
+    router.replace('/(tabs)');
+  };
+
   return (
     <ScrollView style={styles.container}>
       <ThemedView style={styles.header}>
@@ -42,7 +46,7 @@ export default function AdminDashboard() {
             <Text style={styles.adminTitle}>لوحة التحكم الإدارية</Text>
             <Text style={styles.subtitle}>أهلاً وسهلاً عمر التطبيق</Text>
           </View>
-          <TouchableOpacity style={styles.profileButton} onPress={handleLogout}>
+          <TouchableOpacity style={styles.profileButton} onPress={handleGoHome}>
             <IconSymbol name="house.fill" size={24} color="#fff" />
           </TouchableOpacity>
         </View>
