@@ -60,7 +60,7 @@ export default function HomeScreen() {
             style={styles.secondaryButton}
             onPress={() => router.push('/auth')}
           >
-            <Text style={styles.secondaryButtonText}>تسجيل الدخول</Text>
+            <Text style={styles.secondaryButtonText}>عرض المنتجات</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.tertiaryButton}>
             <Text style={styles.secondaryButtonText}>اكتشف السودان</Text>
