@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { LoginScreen, RegisterScreen } from '@/components/AuthScreen';
@@ -8,11 +7,11 @@ export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
 
   const handleLogin = (username?: string, password?: string) => {
-    // التحقق من بيانات المدير
     if (username === 'admin' && password === '123456') {
       router.replace('/admin-dashboard');
+    } else if (username === 'merchant' && password === 'merchant') {
+      router.replace('/merchant-dashboard');
     } else {
-      // للمستخدمين العاديين
       router.replace('/(tabs)');
     }
   };
