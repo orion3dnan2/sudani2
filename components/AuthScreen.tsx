@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
@@ -25,7 +24,7 @@ export function LoginScreen({ onLogin }: AuthScreenProps) {
         <View style={styles.loginIcon}>
           <IconSymbol name="house.fill" size={32} color="#fff" />
         </View>
-        
+
         <Text style={styles.title}>تسجيل الدخول</Text>
         <Text style={styles.subtitle}>أدخل بيانات تسجيل دخولك</Text>
 
@@ -70,7 +69,7 @@ export function LoginScreen({ onLogin }: AuthScreenProps) {
 
         <View style={styles.adminSection}>
           <Text style={styles.adminTitle}>حسابات التجربة</Text>
-          
+
           <View style={styles.adminCard}>
             <Text style={styles.adminType}>مدير التطبيق (Super Admin)</Text>
             <View style={styles.adminBadge}>
@@ -121,7 +120,7 @@ export function RegisterScreen({ onRegister }: AuthScreenProps) {
 
         <View style={styles.userTypeSelector}>
           <Text style={styles.userTypeLabel}>نوع الحساب</Text>
-          
+
           <TouchableOpacity
             style={[styles.userTypeOption, userType === 'customer' && styles.userTypeSelected]}
             onPress={() => setUserType('customer')}

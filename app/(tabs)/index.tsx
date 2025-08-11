@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ScrollView, StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
@@ -17,7 +16,7 @@ export default function HomeScreen() {
               <Text style={styles.logoText}>SD</Text>
             </View>
             <View style={styles.titleSection}>
-              <Text style={styles.mainTitle}>البيت السوداني</Text>
+              <Text style={styles.mainTitle}>القفة السودانية</Text>
               <Text style={styles.subtitle}>سوق وخدمات متنوعة</Text>
             </View>
           </View>
@@ -34,12 +33,12 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
         </View>
-        
+
         {/* Search Bar */}
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.searchInput}
-            placeholder="ابحث في البيت السوداني..."
+            placeholder="ابحث في القفة السودانية..."
             placeholderTextColor="#9ca3af"
           />
           <IconSymbol name="magnifyingglass" size={18} color="#9ca3af" style={styles.searchIcon} />
@@ -48,9 +47,9 @@ export default function HomeScreen() {
 
       {/* Hero Section */}
       <View style={styles.heroSection}>
-        <Text style={styles.heroTitle}>البيت السوداني</Text>
+        <Text style={styles.heroTitle}>القفة السودانية</Text>
         <Text style={styles.heroSubtitle}>سوق وخدمات ومنتجات السودان في الخليج والعالم</Text>
-        
+
         {/* Action Buttons */}
         <View style={styles.actionButtons}>
           <TouchableOpacity style={styles.primaryButton}>
@@ -96,7 +95,7 @@ export default function HomeScreen() {
       <View style={styles.servicesSection}>
         <Text style={styles.sectionTitle}>خدماتنا</Text>
         <Text style={styles.sectionSubtitle}>مجموعة متنوعة من الخدمات المتخصصة تخدم المجتمع السوداني في الخليج والعالم</Text>
-        
+
         <View style={styles.servicesGrid}>
           <TouchableOpacity style={[styles.serviceCard, { backgroundColor: '#6366f1' }]}>
             <View style={styles.serviceIcon}>
