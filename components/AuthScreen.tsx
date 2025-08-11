@@ -5,7 +5,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 
 interface AuthScreenProps {
-  onLogin?: () => void;
+  onLogin?: (username?: string, password?: string) => void;
   onRegister?: () => void;
 }
 
@@ -57,7 +57,7 @@ export function LoginScreen({ onLogin }: AuthScreenProps) {
             <Text style={styles.forgotPasswordText}>نسيت كلمة المرور؟</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.loginButton} onPress={onLogin}>
+          <TouchableOpacity style={styles.loginButton} onPress={() => onLogin?.(username, password)}>
             <Text style={styles.loginButtonText}>تسجيل الدخول →</Text>
           </TouchableOpacity>
 

@@ -7,9 +7,14 @@ import { router } from 'expo-router';
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
 
-  const handleLogin = () => {
-    // هنا يمكن إضافة منطق التحقق من بيانات تسجيل الدخول
-    router.replace('/(tabs)');
+  const handleLogin = (username?: string, password?: string) => {
+    // التحقق من بيانات المدير
+    if (username === 'admin' && password === '123456') {
+      router.replace('/admin-dashboard');
+    } else {
+      // للمستخدمين العاديين
+      router.replace('/(tabs)');
+    }
   };
 
   const handleRegister = () => {
