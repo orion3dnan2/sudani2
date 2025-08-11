@@ -14,10 +14,10 @@ export default function MerchantDashboard() {
   ];
 
   const quickActions = [
-    { id: 1, title: 'إعدادات المتجر', icon: 'house.fill', color: '#6b7280' },
-    { id: 2, title: 'إدارة الطلبات', icon: 'chevron.right', color: '#6b7280' },
-    { id: 3, title: 'إدارة المنتجات', icon: 'house.fill', color: '#6b7280' },
-    { id: 4, title: 'إضافة منتج جديد', icon: 'house.fill', color: '#10b981', isHighlighted: true },
+    { id: 1, title: 'إعدادات المتجر', icon: 'house.fill', color: '#6b7280', action: 'store-settings' },
+    { id: 2, title: 'إدارة الطلبات', icon: 'chevron.right', color: '#6b7280', action: 'orders' },
+    { id: 3, title: 'إدارة المنتجات', icon: 'house.fill', color: '#6b7280', action: 'products' },
+    { id: 4, title: 'إضافة منتج جديد', icon: 'house.fill', color: '#10b981', isHighlighted: true, action: 'add-product' },
   ];
 
   const storePerformance = {
@@ -60,6 +60,25 @@ export default function MerchantDashboard() {
 
   const handleGoHome = () => {
     router.replace('/(tabs)');
+  };
+
+  const handleQuickAction = (action: string) => {
+    switch (action) {
+      case 'store-settings':
+        router.push('/store-settings');
+        break;
+      case 'orders':
+        alert('إدارة الطلبات - قيد التطوير');
+        break;
+      case 'products':
+        alert('إدارة المنتجات - قيد التطوير');
+        break;
+      case 'add-product':
+        alert('إضافة منتج جديد - قيد التطوير');
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -111,6 +130,7 @@ export default function MerchantDashboard() {
               styles.quickActionCard,
               action.isHighlighted && styles.highlightedAction
             ]}
+            onPress={() => handleQuickAction(action.action)}
           >
             <IconSymbol name={action.icon} size={24} color={action.color} />
             <Text style={[
@@ -132,8 +152,8 @@ export default function MerchantDashboard() {
         {/* Store Performance */}
         <View style={styles.performanceSection}>
           <Text style={styles.sectionTitle}>ملا أداء المتجر</Text>
-          <TouchableOpacity style={styles.viewDetailsButton}>
-            <Text style={styles.viewDetailsText}>عرض التفل</Text>
+          <TouchableOpacity style={styles.viewDetailsButton} onPress={() => alert('عرض التفاصيل - قيد التطوير')}>
+            <Text style={styles.viewDetailsText}>عرض التفاصيل</Text>
           </TouchableOpacity>
           
           <View style={styles.performanceGrid}>
@@ -175,7 +195,7 @@ export default function MerchantDashboard() {
                 <Text style={styles.alertBadgeText}>قد المخزون</Text>
               </View>
             </View>
-            <TouchableOpacity style={styles.manageInventoryButton}>
+            <TouchableOpacity style={styles.manageInventoryButton} onPress={() => alert('إدارة المخزون - قيد التطوير')}>
               <Text style={styles.manageInventoryText}>إدارة المخزون</Text>
             </TouchableOpacity>
           </View>
@@ -212,13 +232,13 @@ export default function MerchantDashboard() {
         <View style={styles.customizationSection}>
           <Text style={styles.sectionTitle}>تخصيص المتجر</Text>
           <View style={styles.customizationOptions}>
-            <TouchableOpacity style={styles.customizationOption}>
+            <TouchableOpacity style={styles.customizationOption} onPress={() => router.push('/store-settings')}>
               <Text style={styles.customizationText}>تخصيص المتجر</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.customizationOption}>
+            <TouchableOpacity style={styles.customizationOption} onPress={() => router.push('/store-settings')}>
               <Text style={styles.customizationText}>تحديث المعلومات</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.customizationOption}>
+            <TouchableOpacity style={styles.customizationOption} onPress={() => alert('التقارير المفصلة - قيد التطوير')}>
               <Text style={styles.customizationText}>تقارير مفصلة</Text>
             </TouchableOpacity>
           </View>
