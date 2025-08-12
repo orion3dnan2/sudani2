@@ -14,12 +14,12 @@ export default function AdminDashboard() {
   ];
 
   const quickActions = [
-    { id: 1, title: 'إدارة المتاجر', subtitle: 'مراجعة واعتماد المتاجر الجديدة', icon: 'paperplane.fill', color: '#ef4444' },
-    { id: 2, title: 'إدارة المستخدمين', subtitle: 'حماية وتعديل حقوق المستخدمين والتطبيقات', icon: 'house.fill', color: '#10b981' },
-    { id: 3, title: 'إعدادات التطبيق', subtitle: 'إدارة الإعدادات العامة والتخصيصات الأساسية', icon: 'chevron.right', color: '#3b82f6' },
-    { id: 4, title: 'إدارة المحتوى', subtitle: 'إدارة الصفحات والمحتوى والتصنيفات المختلفة', icon: 'house.fill', color: '#f97316' },
-    { id: 5, title: 'إعدادات الطلبات', subtitle: 'إعدادات الأسعار والرسوم والجولات المختلفة', icon: 'paperplane.fill', color: '#ef4444' },
-    { id: 6, title: 'التطوير والتقييمات', subtitle: 'تحسين أراء وتقييمات المنتجات', icon: 'chevron.right', color: '#ec4899' },
+    { id: 1, title: 'إدارة المتاجر', subtitle: 'مراجعة واعتماد المتاجر الجديدة', icon: 'paperplane.fill', color: '#ef4444', action: 'stores' },
+    { id: 2, title: 'إدارة المستخدمين', subtitle: 'حماية وتعديل حقوق المستخدمين والتطبيقات', icon: 'house.fill', color: '#10b981', action: 'users' },
+    { id: 3, title: 'إعدادات التطبيق', subtitle: 'إدارة الإعدادات العامة والتخصيصات الأساسية', icon: 'chevron.right', color: '#3b82f6', action: 'settings' },
+    { id: 4, title: 'إدارة المحتوى', subtitle: 'إدارة الصفحات والمحتوى والتصنيفات المختلفة', icon: 'house.fill', color: '#f97316', action: 'content' },
+    { id: 5, title: 'إعدادات الطلبات', subtitle: 'إعدادات الأسعار والرسوم والجولات المختلفة', icon: 'paperplane.fill', color: '#ef4444', action: 'orders' },
+    { id: 6, title: 'التطوير والتقييمات', subtitle: 'تحسين أراء وتقييمات المنتجات', icon: 'chevron.right', color: '#ec4899', action: 'reviews' },
   ];
 
   const recentActivities = [
@@ -35,6 +35,31 @@ export default function AdminDashboard() {
 
   const handleGoHome = () => {
     router.replace('/(tabs)');
+  };
+
+  const handleQuickAction = (action: string) => {
+    switch (action) {
+      case 'stores':
+        router.push('/admin-stores');
+        break;
+      case 'users':
+        alert('إدارة المستخدمين - قيد التطوير');
+        break;
+      case 'settings':
+        alert('إعدادات التطبيق - قيد التطوير');
+        break;
+      case 'content':
+        alert('إدارة المحتوى - قيد التطوير');
+        break;
+      case 'orders':
+        alert('إعدادات الطلبات - قيد التطوير');
+        break;
+      case 'reviews':
+        alert('التطوير والتقييمات - قيد التطوير');
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -74,7 +99,11 @@ export default function AdminDashboard() {
         <Text style={styles.sectionTitle}>⚡ الإجراءات السريعة</Text>
         <View style={styles.actionsGrid}>
           {quickActions.map((action) => (
-            <TouchableOpacity key={action.id} style={styles.actionCard}>
+            <TouchableOpacity 
+              key={action.id} 
+              style={styles.actionCard}
+              onPress={() => handleQuickAction(action.action)}
+            >
               <View style={[styles.actionIcon, { backgroundColor: action.color }]}>
                 <IconSymbol name={action.icon} size={20} color="#fff" />
               </View>
