@@ -40,7 +40,7 @@ export default function AdminDashboard() {
   const handleQuickAction = (action: string) => {
     switch (action) {
       case 'stores':
-        router.push('/admin-stores');
+        router.push('/admin-stores-advanced');
         break;
       case 'users':
         alert('إدارة المستخدمين - قيد التطوير');
