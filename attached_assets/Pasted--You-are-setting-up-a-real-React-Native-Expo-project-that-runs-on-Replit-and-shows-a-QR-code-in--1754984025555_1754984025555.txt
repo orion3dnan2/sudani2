@@ -1,0 +1,123 @@
+:
+
+You are setting up a real React Native (Expo) project that runs on Replit and shows a QR code in the Console to open in Expo Go.
+Make the process idempotent (safe to run multiple times). Do all steps exactly:
+
+0) Detect/prepare project
+If there is NO package.json or NO App.js, create a fresh Expo app:
+
+sql
+Copy
+Edit
+npx create-expo-app@latest expo-app --template blank --yes
+cd expo-app
+Else, stay in the current folder.
+
+1) Replit environment (Node & tools)
+Create/overwrite replit.nix with:
+
+nix
+Copy
+Edit
+{ pkgs }: {
+  deps = [
+    pkgs.nodejs_20
+    pkgs.watchman
+    pkgs.git
+  ];
+}
+After writing replit.nix, trigger a Replit environment rebuild (Restart the repl if needed).
+
+2) Clean & install deps
+If node_modules exists or there is any lockfile, clean then reinstall:
+
+pgsql
+Copy
+Edit
+rm -rf node_modules package-lock.json pnpm-lock.yaml yarn.lock
+npm install
+Do NOT install expo-cli globally; we will use the local expo binary from the project.
+
+3) package.json scripts (ensure tunnel)
+Ensure package.json contains these scripts (create or merge):
+
+json
+Copy
+Edit
+{
+  "scripts": {
+    "start": "expo start --tunnel --non-interactive",
+    "android": "expo start --android --tunnel --non-interactive",
+    "ios": "expo start --ios --tunnel --non-interactive",
+    "web": "expo start --web"
+  }
+}
+Explain in a comment that --tunnel is required so a phone can connect from outside Replit.
+
+4) .replit run config
+Create/overwrite .replit with:
+
+ini
+Copy
+Edit
+run = "npm run start"
+entrypoint = "App.js"
+hidden = [".git", "node_modules"]
+5) Minimal App.js (if missing)
+If App.js doesn’t exist, create a simple one:
+
+js
+Copy
+Edit
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text>Expo on Replit ✅</Text>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, alignItems: 'center', justifyContent: 'center' }
+});
+6) Start the dev server
+Run:
+
+arduino
+Copy
+Edit
+npm run start
+Wait until Metro prints the QR code and the exp:// URL (or “Waiting on tunnel…”).
+
+7) Console instructions (print these)
+After the server starts, print:
+
+“Install Expo Go on your phone (Android/iOS).”
+
+“Scan the QR code in the Console (Android: Expo Go scanner, iOS: Camera app).”
+
+“Keep this Repl open. The web preview won’t show the app—that’s normal.”
+
+8) Auto-troubleshooting (perform checks)
+If the QR code doesn’t appear within 90 seconds:
+
+Kill the process and run:
+
+pgsql
+Copy
+Edit
+rm -rf node_modules package-lock.json
+npm install
+npm run start
+Verify watchman is installed via replit.nix (already added).
+
+If port conflicts are detected, keep using the tunnel (don’t hardcode ports).
+
+Deliverables:
+
+A working Expo project with valid replit.nix, .replit, updated package.json, and a running dev server showing a QR code in the Console.
+
