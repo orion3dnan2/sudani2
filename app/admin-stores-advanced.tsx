@@ -363,7 +363,7 @@ export default function AdminStoresAdvanced() {
       <ThemedView style={styles.header}>
         <View style={styles.headerLeft}>
           <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-            <IconSymbol name="chevron.right" size={20} color="#fff" />
+            <IconSymbol name="chevron.right" size={20} color="#1f2937" />
             <Text style={styles.backText}>العودة</Text>
           </TouchableOpacity>
         </View>
@@ -375,11 +375,11 @@ export default function AdminStoresAdvanced() {
 
         <View style={styles.headerRight}>
           <TouchableOpacity style={styles.exportButton} onPress={exportData}>
-            <IconSymbol name="square.and.arrow.down.fill" size={16} color="#fff" />
+            <IconSymbol name="square.and.arrow.down.fill" size={16} color="#1f2937" />
             <Text style={styles.exportText}>تصدير البيانات</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.settingsButton} onPress={() => Alert.alert('الإعدادات', 'قيد التطوير')}>
-            <IconSymbol name="gearshape.fill" size={20} color="#fff" />
+            <IconSymbol name="gearshape.fill" size={20} color="#1f2937" />
           </TouchableOpacity>
         </View>
       </ThemedView>
@@ -611,16 +611,18 @@ export default function AdminStoresAdvanced() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f1f5f9',
+    backgroundColor: '#ffffff',
   },
   header: {
-    backgroundColor: '#8b5cf6',
+    backgroundColor: '#ffffff',
     paddingTop: 50,
     paddingBottom: 20,
     paddingHorizontal: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e7eb',
   },
   headerLeft: {
     flex: 1,
@@ -628,14 +630,14 @@ const styles = StyleSheet.create({
   backButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: '#f3f4f6',
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 20,
     gap: 4,
   },
   backText: {
-    color: '#fff',
+    color: '#1f2937',
     fontSize: 14,
     fontWeight: '600',
   },
@@ -644,14 +646,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    color: '#fff',
+    color: '#1f2937',
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 4,
   },
   headerSubtitle: {
-    color: 'rgba(255,255,255,0.85)',
+    color: '#6b7280',
     fontSize: 11,
     textAlign: 'center',
     lineHeight: 16,
@@ -664,14 +666,14 @@ const styles = StyleSheet.create({
   exportButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: '#f3f4f6',
     paddingHorizontal: 10,
     paddingVertical: 6,
     borderRadius: 16,
     gap: 4,
   },
   exportText: {
-    color: '#fff',
+    color: '#1f2937',
     fontSize: 11,
     fontWeight: '600',
   },
@@ -679,7 +681,7 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: 'rgba(255,255,255,0.15)',
+    backgroundColor: '#f3f4f6',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -756,21 +758,21 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   activeButton: {
-    backgroundColor: '#e2e8f0',
+    backgroundColor: '#f9fafb',
     borderBottomWidth: 2,
-    borderBottomColor: '#8b5cf6',
+    borderBottomColor: '#1f2937',
   },
   inactiveButton: {
-    backgroundColor: '#e2e8f0',
+    backgroundColor: '#f9fafb',
   },
   activeButtonText: {
     fontSize: 11,
-    color: '#8b5cf6',
+    color: '#1f2937',
     fontWeight: '700',
   },
   inactiveButtonText: {
     fontSize: 11,
-    color: '#475569',
+    color: '#6b7280',
     fontWeight: '600',
   },
   filtersSection: {
