@@ -1,3 +1,8 @@
+
 { pkgs }: {
-  deps = [];
+  deps = [
+    pkgs.nodejs_20
+    pkgs.watchman
+    pkgs.git
+  ];
 }
