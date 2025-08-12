@@ -265,16 +265,16 @@ export default function AdminStoresAdvanced() {
   const handleQuickAction = (action: string) => {
     switch (action) {
       case 'manage':
-        Alert.alert('إدارة المتاجر', 'سيتم فتح لوحة إدارة المتاجر الشاملة');
+        Alert.alert('إدارة المتاجر', 'أنت في شاشة إدارة المتاجر المتقدمة حالياً');
         break;
       case 'subscriptions':
-        Alert.alert('الاشتراكات والقيود', 'سيتم فتح إدارة اشتراكات المتاجر وقيود الاستخدام');
+        router.push('/admin-subscriptions');
         break;
       case 'support':
-        Alert.alert('الدعم والمساعدة', 'سيتم فتح مركز الدعم الفني للمتاجر');
+        router.push('/admin-support');
         break;
       case 'orders':
-        Alert.alert('الطلبات المعتمدة', 'سيتم عرض جميع الطلبات المعتمدة في النظام');
+        router.push('/admin-orders');
         break;
       default:
         break;
@@ -409,17 +409,29 @@ export default function AdminStoresAdvanced() {
 
       {/* Action Buttons */}
       <View style={styles.actionButtonsContainer}>
-        <TouchableOpacity style={styles.actionButton} onPress={() => handleQuickAction('manage')}>
-          <Text style={styles.actionButtonText}>إدارة المتاجر</Text>
+        <TouchableOpacity 
+          style={[styles.actionButton, styles.activeButton]} 
+          onPress={() => handleQuickAction('manage')}
+        >
+          <Text style={styles.activeButtonText}>إدارة المتاجر</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton} onPress={() => handleQuickAction('subscriptions')}>
-          <Text style={styles.actionButtonText}>الاشتراكات والقيود</Text>
+        <TouchableOpacity 
+          style={[styles.actionButton, styles.inactiveButton]} 
+          onPress={() => handleQuickAction('subscriptions')}
+        >
+          <Text style={styles.inactiveButtonText}>الاشتراكات والقيود</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton} onPress={() => handleQuickAction('support')}>
-          <Text style={styles.actionButtonText}>الدعم والمساعدة</Text>
+        <TouchableOpacity 
+          style={[styles.actionButton, styles.inactiveButton]} 
+          onPress={() => handleQuickAction('support')}
+        >
+          <Text style={styles.inactiveButtonText}>الدعم والمساعدة</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton} onPress={() => handleQuickAction('orders')}>
-          <Text style={styles.actionButtonText}>الطلبات المعتمدة</Text>
+        <TouchableOpacity 
+          style={[styles.actionButton, styles.inactiveButton]} 
+          onPress={() => handleQuickAction('orders')}
+        >
+          <Text style={styles.inactiveButtonText}>الطلبات المعتمدة</Text>
         </TouchableOpacity>
       </View>
 
@@ -735,7 +747,6 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    backgroundColor: '#e2e8f0',
     paddingVertical: 12,
     borderRadius: 8,
     alignItems: 'center',
@@ -745,7 +756,20 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 1,
   },
-  actionButtonText: {
+  activeButton: {
+    backgroundColor: '#e2e8f0',
+    borderBottomWidth: 2,
+    borderBottomColor: '#8b5cf6',
+  },
+  inactiveButton: {
+    backgroundColor: '#e2e8f0',
+  },
+  activeButtonText: {
+    fontSize: 11,
+    color: '#8b5cf6',
+    fontWeight: '700',
+  },
+  inactiveButtonText: {
     fontSize: 11,
     color: '#475569',
     fontWeight: '600',
