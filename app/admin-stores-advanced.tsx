@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert, Modal, FlatList } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
@@ -368,7 +367,7 @@ export default function AdminStoresAdvanced() {
             <Text style={styles.backText}>العودة</Text>
           </TouchableOpacity>
         </View>
-        
+
         <View style={styles.headerCenter}>
           <Text style={styles.headerTitle}>إدارة المتاجر المتقدمة</Text>
           <Text style={styles.headerSubtitle}>التحكم الكامل ومراقبة لصحاب المتاجر إضافة المتاجر</Text>
@@ -866,9 +865,9 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   storeName: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold',
-    color: '#1e293b',
+    color: '#1a202c',
     flex: 1,
     textAlign: 'right',
   },
@@ -883,13 +882,14 @@ const styles = StyleSheet.create({
   },
   storeOwner: {
     fontSize: 13,
-    color: '#64748b',
+    color: '#4a5568',
     marginBottom: 4,
     textAlign: 'right',
+    fontWeight: '500',
   },
   storeLocation: {
     fontSize: 12,
-    color: '#94a3b8',
+    color: '#718096',
     textAlign: 'right',
   },
   moreButton: {
