@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert,
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { router } from 'expo-router';
+import { Colors, Fonts } from '@/constants/Colors';
+
 
 interface Store {
   id: number;
@@ -637,8 +639,9 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   backText: {
+    fontSize: 16,
+    fontFamily: Fonts.medium,
     color: '#1f2937',
-    fontSize: 14,
     fontWeight: '600',
   },
   headerCenter: {
@@ -646,17 +649,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    color: '#1f2937',
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
+    fontFamily: Fonts.bold,
+    color: '#1f2937',
     textAlign: 'center',
-    marginBottom: 4,
   },
   headerSubtitle: {
+    fontSize: 14,
+    fontFamily: Fonts.regular,
     color: '#6b7280',
-    fontSize: 11,
     textAlign: 'center',
-    lineHeight: 16,
+    marginTop: 4,
   },
   headerRight: {
     flex: 1,
@@ -800,7 +804,8 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    fontSize: 14,
+    fontSize: 16,
+    fontFamily: Fonts.regular,
     textAlign: 'right',
     color: '#1e293b',
   },
@@ -867,10 +872,11 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   storeName: {
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#1a202c',
-    flex: 1,
+    fontFamily: Fonts.bold,
+    color: '#1e293b',
+    marginBottom: 8,
     textAlign: 'right',
   },
   vipBadge: {
@@ -883,15 +889,17 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   storeOwner: {
-    fontSize: 13,
-    color: '#4a5568',
+    fontSize: 14,
+    fontFamily: Fonts.regular,
+    color: '#64748b',
     marginBottom: 4,
     textAlign: 'right',
-    fontWeight: '500',
   },
   storeLocation: {
     fontSize: 12,
-    color: '#718096',
+    fontFamily: Fonts.regular,
+    color: '#94a3b8',
+    marginBottom: 8,
     textAlign: 'right',
   },
   moreButton: {
