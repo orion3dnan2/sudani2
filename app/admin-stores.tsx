@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert, Modal } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert, Modal, Switch } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { router } from 'expo-router';
@@ -25,8 +25,8 @@ export default function AdminStores() {
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [selectedStore, setSelectedStore] = useState<Store | null>(null);
   const [showStoreModal, setShowStoreModal] = useState(false);
-
-  const stores: Store[] = [
+  const [selectedStores, setSelectedStores] = useState<number[]>([]);
+  const [stores, setStores] = useState<Store[]>([
     {
       id: 1,
       name: 'متجر الفر',
@@ -97,7 +97,9 @@ export default function AdminStores() {
       revenue: 450,
       rating: 3.0,
     },
-  ];
+  ]);
+
+  
 
   const statusFilters = [
     { id: 'all', name: 'الكل', count: stores.length },
@@ -149,30 +151,97 @@ export default function AdminStores() {
     router.back();
   };
 
+  const handleAddNewStore = () => {
+    Alert.alert(
+      'إضافة متجر جديد',
+      'هل تريد إضافة متجر جديد إلى النظام؟',
+      [
+        { text: 'إلغاء', style: 'cancel' },
+        {
+          text: 'إضافة',
+          onPress: () => {
+            const newStore: Store = {
+              id: stores.length + 1,
+              name: 'متجر جديد',
+              owner: 'صاحب متجر جديد',
+              email: 'newstore@example.com',
+              phone: '+966500000000',
+              status: 'pending',
+              category: 'عام',
+              registrationDate: new Date().toISOString().split('T')[0],
+              totalProducts: 0,
+              totalOrders: 0,
+              revenue: 0,
+              rating: 0,
+            };
+            setStores([...stores, newStore]);
+            Alert.alert('نجح', 'تم إضافة متجر جديد بنجاح');
+          }
+        }
+      ]
+    );
+  };
+
+  const updateStoreStatus = (storeId: number, newStatus: 'active' | 'pending' | 'suspended' | 'rejected') => {
+    setStores(stores.map(store => 
+      store.id === storeId ? { ...store, status: newStatus } : store
+    ));
+  };
+
+  const deleteStore = (storeId: number) => {
+    setStores(stores.filter(store => store.id !== storeId));
+  };
+
   const handleStoreAction = (store: Store, action: string) => {
     switch (action) {
       case 'approve':
         Alert.alert('تأكيد الاعتماد', `هل تريد اعتماد متجر "${store.name}"؟`, [
           { text: 'إلغاء', style: 'cancel' },
-          { text: 'اعتماد', onPress: () => alert('تم اعتماد المتجر بنجاح') },
+          { 
+            text: 'اعتماد', 
+            onPress: () => {
+              updateStoreStatus(store.id, 'active');
+              Alert.alert('نجح', 'تم اعتماد المتجر بنجاح');
+            }
+          },
         ]);
         break;
       case 'reject':
         Alert.alert('تأكيد الرفض', `هل تريد رفض متجر "${store.name}"؟`, [
           { text: 'إلغاء', style: 'cancel' },
-          { text: 'رفض', onPress: () => alert('تم رفض المتجر'), style: 'destructive' },
+          { 
+            text: 'رفض', 
+            onPress: () => {
+              updateStoreStatus(store.id, 'rejected');
+              Alert.alert('تم', 'تم رفض المتجر');
+            }, 
+            style: 'destructive' 
+          },
         ]);
         break;
       case 'suspend':
         Alert.alert('تأكيد التعليق', `هل تريد تعليق متجر "${store.name}"؟`, [
           { text: 'إلغاء', style: 'cancel' },
-          { text: 'تعليق', onPress: () => alert('تم تعليق المتجر'), style: 'destructive' },
+          { 
+            text: 'تعليق', 
+            onPress: () => {
+              updateStoreStatus(store.id, 'suspended');
+              Alert.alert('تم', 'تم تعليق المتجر');
+            }, 
+            style: 'destructive' 
+          },
         ]);
         break;
       case 'activate':
         Alert.alert('تأكيد التفعيل', `هل تريد تفعيل متجر "${store.name}"؟`, [
           { text: 'إلغاء', style: 'cancel' },
-          { text: 'تفعيل', onPress: () => alert('تم تفعيل المتجر') },
+          { 
+            text: 'تفعيل', 
+            onPress: () => {
+              updateStoreStatus(store.id, 'active');
+              Alert.alert('نجح', 'تم تفعيل المتجر');
+            }
+          },
         ]);
         break;
       case 'view':
@@ -182,7 +251,14 @@ export default function AdminStores() {
       case 'delete':
         Alert.alert('تأكيد الحذف', `هل تريد حذف متجر "${store.name}" نهائياً؟`, [
           { text: 'إلغاء', style: 'cancel' },
-          { text: 'حذف', onPress: () => alert('تم حذف المتجر نهائياً'), style: 'destructive' },
+          { 
+            text: 'حذف', 
+            onPress: () => {
+              deleteStore(store.id);
+              Alert.alert('تم', 'تم حذف المتجر نهائياً');
+            }, 
+            style: 'destructive' 
+          },
         ]);
         break;
       default:
@@ -190,10 +266,49 @@ export default function AdminStores() {
     }
   };
 
+  const toggleStoreSelection = (storeId: number) => {
+    if (selectedStores.includes(storeId)) {
+      setSelectedStores(selectedStores.filter(id => id !== storeId));
+    } else {
+      setSelectedStores([...selectedStores, storeId]);
+    }
+  };
+
+  const selectAllStores = () => {
+    if (selectedStores.length === filteredStores.length) {
+      setSelectedStores([]);
+    } else {
+      setSelectedStores(filteredStores.map(store => store.id));
+    }
+  };
+
   const handleBulkAction = (action: string) => {
-    Alert.alert('إجراء جماعي', `سيتم تطبيق "${action}" على جميع المتاجر المحددة`, [
+    if (selectedStores.length === 0) {
+      Alert.alert('تنبيه', 'يرجى تحديد متجر واحد على الأقل');
+      return;
+    }
+
+    const actionText = action === 'اعتماد' ? 'اعتماد' : 
+                      action === 'تعليق' ? 'تعليق' : 'حذف';
+    
+    Alert.alert('إجراء جماعي', `سيتم ${actionText} ${selectedStores.length} متجر محدد`, [
       { text: 'إلغاء', style: 'cancel' },
-      { text: 'تأكيد', onPress: () => alert(`تم تطبيق "${action}" بنجاح`) },
+      { 
+        text: 'تأكيد', 
+        onPress: () => {
+          selectedStores.forEach(storeId => {
+            if (action === 'اعتماد') {
+              updateStoreStatus(storeId, 'active');
+            } else if (action === 'تعليق') {
+              updateStoreStatus(storeId, 'suspended');
+            } else if (action === 'حذف') {
+              deleteStore(storeId);
+            }
+          });
+          setSelectedStores([]);
+          Alert.alert('نجح', `تم ${actionText} المتاجر المحددة بنجاح`);
+        }
+      },
     ]);
   };
 
@@ -210,8 +325,8 @@ export default function AdminStores() {
           <Text style={styles.headerSubtitle}>مراجعة وإدارة جميع المتاجر المسجلة</Text>
         </View>
 
-        <TouchableOpacity style={styles.addButton} onPress={() => alert('إضافة متجر جديد')}>
-          <IconSymbol name="house.fill" size={24} color="#fff" />
+        <TouchableOpacity style={styles.addButton} onPress={handleAddNewStore}>
+          <IconSymbol name="plus" size={24} color="#fff" />
         </TouchableOpacity>
       </ThemedView>
 
@@ -250,15 +365,39 @@ export default function AdminStores() {
 
       {/* Bulk Actions */}
       <View style={styles.bulkActionsSection}>
-        <Text style={styles.bulkActionsTitle}>إجراءات جماعية:</Text>
+        <View style={styles.bulkActionsHeader}>
+          <Text style={styles.bulkActionsTitle}>إجراءات جماعية:</Text>
+          <TouchableOpacity style={styles.selectAllButton} onPress={selectAllStores}>
+            <Text style={styles.selectAllText}>
+              {selectedStores.length === filteredStores.length ? 'إلغاء تحديد الكل' : 'تحديد الكل'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        
+        {selectedStores.length > 0 && (
+          <Text style={styles.selectedCountText}>تم تحديد {selectedStores.length} متجر</Text>
+        )}
+        
         <View style={styles.bulkActionsContainer}>
-          <TouchableOpacity style={styles.bulkActionButton} onPress={() => handleBulkAction('اعتماد')}>
+          <TouchableOpacity 
+            style={[styles.bulkActionButton, { opacity: selectedStores.length > 0 ? 1 : 0.5 }]} 
+            onPress={() => handleBulkAction('اعتماد')}
+            disabled={selectedStores.length === 0}
+          >
             <Text style={styles.bulkActionText}>اعتماد المحدد</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.bulkActionButton, styles.suspendButton]} onPress={() => handleBulkAction('تعليق')}>
+          <TouchableOpacity 
+            style={[styles.bulkActionButton, styles.suspendButton, { opacity: selectedStores.length > 0 ? 1 : 0.5 }]} 
+            onPress={() => handleBulkAction('تعليق')}
+            disabled={selectedStores.length === 0}
+          >
             <Text style={[styles.bulkActionText, styles.suspendButtonText]}>تعليق المحدد</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.bulkActionButton, styles.deleteButton]} onPress={() => handleBulkAction('حذف')}>
+          <TouchableOpacity 
+            style={[styles.bulkActionButton, styles.deleteButton, { opacity: selectedStores.length > 0 ? 1 : 0.5 }]} 
+            onPress={() => handleBulkAction('حذف')}
+            disabled={selectedStores.length === 0}
+          >
             <Text style={[styles.bulkActionText, styles.deleteButtonText]}>حذف المحدد</Text>
           </TouchableOpacity>
         </View>
@@ -270,6 +409,14 @@ export default function AdminStores() {
         
         {filteredStores.map((store) => (
           <View key={store.id} style={styles.storeCard}>
+            <View style={styles.storeCheckboxContainer}>
+              <Switch
+                value={selectedStores.includes(store.id)}
+                onValueChange={() => toggleStoreSelection(store.id)}
+                trackColor={{ false: '#e5e7eb', true: '#3b82f6' }}
+                thumbColor={selectedStores.includes(store.id) ? '#fff' : '#f4f3f4'}
+              />
+            </View>
             <View style={styles.storeHeader}>
               <View style={styles.storeBasicInfo}>
                 <Text style={styles.storeName}>{store.name}</Text>
@@ -318,7 +465,7 @@ export default function AdminStores() {
                 style={styles.actionButton} 
                 onPress={() => handleStoreAction(store, 'view')}
               >
-                <IconSymbol name="house.fill" size={16} color="#3b82f6" />
+                <IconSymbol name="eye" size={16} color="#3b82f6" />
                 <Text style={styles.actionButtonText}>عرض</Text>
               </TouchableOpacity>
 
@@ -328,14 +475,14 @@ export default function AdminStores() {
                     style={[styles.actionButton, styles.approveButton]} 
                     onPress={() => handleStoreAction(store, 'approve')}
                   >
-                    <IconSymbol name="house.fill" size={16} color="#10b981" />
+                    <IconSymbol name="checkmark" size={16} color="#10b981" />
                     <Text style={[styles.actionButtonText, styles.approveButtonText]}>اعتماد</Text>
                   </TouchableOpacity>
                   <TouchableOpacity 
                     style={[styles.actionButton, styles.rejectButton]} 
                     onPress={() => handleStoreAction(store, 'reject')}
                   >
-                    <IconSymbol name="house.fill" size={16} color="#ef4444" />
+                    <IconSymbol name="xmark" size={16} color="#ef4444" />
                     <Text style={[styles.actionButtonText, styles.rejectButtonText]}>رفض</Text>
                   </TouchableOpacity>
                 </>
@@ -346,7 +493,7 @@ export default function AdminStores() {
                   style={[styles.actionButton, styles.suspendButton]} 
                   onPress={() => handleStoreAction(store, 'suspend')}
                 >
-                  <IconSymbol name="house.fill" size={16} color="#f59e0b" />
+                  <IconSymbol name="pause" size={16} color="#f59e0b" />
                   <Text style={[styles.actionButtonText, styles.suspendButtonText]}>تعليق</Text>
                 </TouchableOpacity>
               )}
@@ -356,7 +503,7 @@ export default function AdminStores() {
                   style={[styles.actionButton, styles.activateButton]} 
                   onPress={() => handleStoreAction(store, 'activate')}
                 >
-                  <IconSymbol name="house.fill" size={16} color="#10b981" />
+                  <IconSymbol name="play" size={16} color="#10b981" />
                   <Text style={[styles.actionButtonText, styles.activateButtonText]}>تفعيل</Text>
                 </TouchableOpacity>
               )}
@@ -365,7 +512,7 @@ export default function AdminStores() {
                 style={[styles.actionButton, styles.deleteButton]} 
                 onPress={() => handleStoreAction(store, 'delete')}
               >
-                <IconSymbol name="house.fill" size={16} color="#ef4444" />
+                <IconSymbol name="trash" size={16} color="#ef4444" />
                 <Text style={[styles.actionButtonText, styles.deleteButtonText]}>حذف</Text>
               </TouchableOpacity>
             </View>
@@ -618,10 +765,31 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#f3f4f6',
   },
+  bulkActionsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
   bulkActionsTitle: {
     fontSize: 16,
     fontWeight: '600',
     color: '#1f2937',
+  },
+  selectAllButton: {
+    backgroundColor: '#f3f4f6',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+  },
+  selectAllText: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: '#374151',
+  },
+  selectedCountText: {
+    fontSize: 14,
+    color: '#3b82f6',
     marginBottom: 12,
     textAlign: 'right',
   },
@@ -673,6 +841,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 2,
+  },
+  storeCheckboxContainer: {
+    position: 'absolute',
+    top: 16,
+    left: 16,
+    zIndex: 1,
   },
   storeHeader: {
     flexDirection: 'row',
