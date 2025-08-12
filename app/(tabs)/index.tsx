@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View, Text, TouchableOpacity, TextInput, Image } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
@@ -6,6 +6,72 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 import { router } from 'expo-router';
 
 export default function HomeScreen() {
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const headerActions = (
+    <View style={styles.headerActions}>
+      <TouchableOpacity 
+        style={styles.actionButton}
+        onPress={() => setShowUserMenu(!showUserMenu)}
+      >
+        <IconSymbol name="person.fill" size={20} color="#3b82f6" />
+      </TouchableOpacity>
+      
+      {/* User Menu Dropdown */}
+      {showUserMenu && (
+        <View style={styles.userMenu}>
+          <TouchableOpacity 
+            style={styles.userMenuItem}
+            onPress={() => {
+              setShowUserMenu(false);
+              router.push('/dashboard'); // Assuming a dashboard route exists
+            }}
+          >
+            <IconSymbol name="house.fill" size={16} color="#374151" />
+            <Text style={styles.userMenuText}>لوحة التحكم</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.userMenuItem}
+            onPress={() => {
+              setShowUserMenu(false);
+              router.push('/user-settings'); // Navigate to user settings
+            }}
+          >
+            <IconSymbol name="chevron.right" size={16} color="#374151" />
+            <Text style={styles.userMenuText}>الإعدادات</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.userMenuItem}
+            onPress={() => {
+              setShowUserMenu(false);
+              // Navigate to profile
+              alert('الملف الشخصي - قيد التطوير');
+            }}
+          >
+            <IconSymbol name="paperplane.fill" size={16} color="#374151" />
+            <Text style={styles.userMenuText}>الملف الشخصي</Text>
+          </TouchableOpacity>
+
+          <View style={styles.userMenuDivider} />
+
+          <TouchableOpacity 
+            style={styles.userMenuItem}
+            onPress={() => {
+              setShowUserMenu(false);
+              router.push('/auth'); // Assuming logout navigates to auth
+            }}
+          >
+            <IconSymbol name="house.fill" size={16} color="#ef4444" />
+            <Text style={[styles.userMenuText, { color: '#ef4444' }]}>تسجيل الخروج</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </View>
+  );
+
+
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
@@ -28,9 +94,7 @@ export default function HomeScreen() {
               <IconSymbol name="arrow.right.square" size={20} color="#fff" />
               <Text style={styles.logoutText}>تسجيل الخروج</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.profileIcon}>
-              <IconSymbol name="person.fill" size={20} color="#3b82f6" />
-            </TouchableOpacity>
+            {headerActions}
           </View>
         </View>
 
@@ -49,7 +113,7 @@ export default function HomeScreen() {
       <View style={styles.heroSection}>
         <Text style={styles.heroTitle}>القفة السودانية</Text>
         <Text style={styles.heroSubtitle}>سوق وخدمات ومنتجات السودان في الخليج والعالم</Text>
-        
+
         {/* Background Image */}
         <View style={styles.backgroundImageContainer}>
           <Image 
@@ -231,8 +295,9 @@ const styles = StyleSheet.create({
   },
   headerActions: {
     flexDirection: 'row',
+    gap: 8,
+    position: 'relative',
     alignItems: 'center',
-    gap: 12,
   },
   logoutButton: {
     flexDirection: 'row',
@@ -344,6 +409,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  tertiaryButton: {
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 25,
+  },
   statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -422,5 +492,51 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
     fontWeight: '600',
+  },
+  // User Menu Styles
+  actionButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#f3f4f6',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userMenu: {
+    position: 'absolute',
+    top: 45, // Position below the profile icon
+    right: 0,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingVertical: 8,
+    minWidth: 180,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    zIndex: 1000,
+  },
+  userMenuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 12,
+  },
+  userMenuText: {
+    fontSize: 14,
+    color: '#374151',
+    textAlign: 'right',
+    flex: 1,
+  },
+  userMenuDivider: {
+    height: 1,
+    backgroundColor: '#e5e7eb',
+    marginVertical: 4,
+    marginHorizontal: 16,
   },
 });
