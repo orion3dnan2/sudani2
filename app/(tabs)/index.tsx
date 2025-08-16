@@ -9,68 +9,7 @@ export default function HomeScreen() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState(''); // State for search query
 
-  const headerActions = (
-    <View style={styles.headerActions}>
-      <TouchableOpacity 
-        style={styles.actionButton}
-        onPress={() => setShowUserMenu(!showUserMenu)}
-      >
-        <IconSymbol name="person.fill" size={20} color="#3b82f6" />
-      </TouchableOpacity>
-
-      {/* User Menu Dropdown */}
-      {showUserMenu && (
-        <View style={styles.userMenu}>
-          <TouchableOpacity 
-            style={styles.userMenuItem}
-            onPress={() => {
-              setShowUserMenu(false);
-              router.push('/dashboard'); // Assuming a dashboard route exists
-            }}
-          >
-            <IconSymbol name="house.fill" size={16} color="#374151" />
-            <Text style={styles.userMenuText}>لوحة التحكم</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.userMenuItem}
-            onPress={() => {
-              setShowUserMenu(false);
-              router.push('/user-settings'); // Navigate to user settings
-            }}
-          >
-            <IconSymbol name="chevron.right" size={16} color="#374151" />
-            <Text style={styles.userMenuText}>الإعدادات</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.userMenuItem}
-            onPress={() => {
-              setShowUserMenu(false);
-              // Navigate to profile
-              alert('الملف الشخصي - قيد التطوير');
-            }}
-          >
-            <IconSymbol name="paperplane.fill" size={16} color="#374151" />
-            <Text style={styles.userMenuText}>الملف الشخصي</Text>
-          </TouchableOpacity>
-
-          <View style={styles.userMenuDivider} />
-
-          <TouchableOpacity 
-            style={styles.userMenuItem}
-            onPress={() => {
-              setShowUserMenu(false);
-              router.push('/auth'); // Assuming logout navigates to auth
-            }}
-          >
-            <IconSymbol name="house.fill" size={16} color="#ef4444" />
-            <Text style={[styles.userMenuText, { color: '#ef4444' }]}>تسجيل الخروج</Text>
-          </TouchableOpacity>
-        </View>
-      )}
-    </View>
-  );
+  
 
 
   return (
@@ -95,7 +34,64 @@ export default function HomeScreen() {
               <IconSymbol name="arrow.right.square" size={20} color="#fff" />
               <Text style={styles.logoutText}>تسجيل الخروج</Text>
             </TouchableOpacity>
-            {headerActions}
+            
+            <TouchableOpacity 
+              style={styles.actionButton}
+              onPress={() => setShowUserMenu(!showUserMenu)}
+            >
+              <IconSymbol name="person.fill" size={20} color="#3b82f6" />
+            </TouchableOpacity>
+
+            {/* User Menu Dropdown */}
+            {showUserMenu && (
+              <View style={styles.userMenu}>
+                <TouchableOpacity 
+                  style={styles.userMenuItem}
+                  onPress={() => {
+                    setShowUserMenu(false);
+                    router.push('/dashboard');
+                  }}
+                >
+                  <IconSymbol name="house.fill" size={16} color="#374151" />
+                  <Text style={styles.userMenuText}>لوحة التحكم</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                  style={styles.userMenuItem}
+                  onPress={() => {
+                    setShowUserMenu(false);
+                    router.push('/user-settings');
+                  }}
+                >
+                  <IconSymbol name="chevron.right" size={16} color="#374151" />
+                  <Text style={styles.userMenuText}>الإعدادات</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity 
+                  style={styles.userMenuItem}
+                  onPress={() => {
+                    setShowUserMenu(false);
+                    alert('الملف الشخصي - قيد التطوير');
+                  }}
+                >
+                  <IconSymbol name="paperplane.fill" size={16} color="#374151" />
+                  <Text style={styles.userMenuText}>الملف الشخصي</Text>
+                </TouchableOpacity>
+
+                <View style={styles.userMenuDivider} />
+
+                <TouchableOpacity 
+                  style={styles.userMenuItem}
+                  onPress={() => {
+                    setShowUserMenu(false);
+                    router.push('/auth');
+                  }}
+                >
+                  <IconSymbol name="house.fill" size={16} color="#ef4444" />
+                  <Text style={[styles.userMenuText, { color: '#ef4444' }]}>تسجيل الخروج</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </View>
 
@@ -316,6 +312,7 @@ const styles = StyleSheet.create({
     gap: 8,
     position: 'relative',
     alignItems: 'center',
+    zIndex: 1000,
   },
   logoutButton: {
     flexDirection: 'row',
@@ -341,6 +338,7 @@ const styles = StyleSheet.create({
   },
   searchSection: {
     marginTop: 20,
+    zIndex: 1,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -547,7 +545,7 @@ const styles = StyleSheet.create({
   },
   userMenu: {
     position: 'absolute',
-    top: 45, // Position below the profile icon
+    top: 45,
     right: 0,
     backgroundColor: '#fff',
     borderRadius: 12,
@@ -560,8 +558,10 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
-    zIndex: 1000,
+    elevation: 10,
+    zIndex: 2000,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
   },
   userMenuItem: {
     flexDirection: 'row',
