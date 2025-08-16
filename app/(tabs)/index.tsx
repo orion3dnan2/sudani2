@@ -7,6 +7,7 @@ import { router } from 'expo-router';
 
 export default function HomeScreen() {
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(''); // State for search query
 
   const headerActions = (
     <View style={styles.headerActions}>
@@ -16,7 +17,7 @@ export default function HomeScreen() {
       >
         <IconSymbol name="person.fill" size={20} color="#3b82f6" />
       </TouchableOpacity>
-      
+
       {/* User Menu Dropdown */}
       {showUserMenu && (
         <View style={styles.userMenu}>
@@ -98,14 +99,31 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* Search Bar */}
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="ابحث في القفة السودانية..."
-            placeholderTextColor="#9ca3af"
-          />
-          <IconSymbol name="magnifyingglass" size={18} color="#9ca3af" style={styles.searchIcon} />
+        {/* Search Section */}
+        <View style={styles.searchSection}>
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.searchInput}
+              placeholder="ابحث في الثقة السودانية..."
+              placeholderTextColor="#94a3b8"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+            <IconSymbol name="magnifyingglass" size={20} color="#64748b" style={styles.searchIcon} />
+          </View>
+
+          <View style={styles.searchCategories}>
+            <Text style={styles.categoriesLabel}>الإعدادات</Text>
+            <TouchableOpacity style={styles.categoryChip}>
+              <Text style={styles.categoryText}>إعدادات الحساب</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.categoryChip}>
+              <Text style={styles.categoryText}>الإشعارات</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.categoryChip}>
+              <Text style={styles.categoryText}>الخصوصية</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ThemedView>
 
@@ -321,6 +339,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  searchSection: {
+    marginTop: 20,
+  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -329,16 +350,38 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: '#e2e8f0',
+    height: 48,
   },
   searchInput: {
     flex: 1,
-    height: 48,
     fontSize: 16,
     textAlign: 'right',
     color: '#1e293b',
   },
   searchIcon: {
     marginLeft: 8,
+  },
+  searchCategories: {
+    flexDirection: 'row',
+    marginTop: 16,
+    gap: 10,
+    flexWrap: 'wrap',
+  },
+  categoriesLabel: {
+    fontSize: 14,
+    color: '#64748b',
+    fontWeight: '500',
+    alignSelf: 'center',
+  },
+  categoryChip: {
+    backgroundColor: '#f1f5f9',
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  categoryText: {
+    fontSize: 14,
+    color: '#334155',
   },
   heroSection: {
     paddingVertical: 80,
