@@ -46,7 +46,7 @@ export default function AdminDashboard() {
         alert('إدارة المستخدمين - قيد التطوير');
         break;
       case 'settings':
-        alert('إعدادات التطبيق - قيد التطوير');
+        router.push('/admin-app-settings');
         break;
       case 'content':
         alert('إدارة المحتوى - قيد التطوير');
