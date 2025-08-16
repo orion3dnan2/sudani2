@@ -76,7 +76,7 @@ export default function MerchantDashboard() {
         router.push('/store-settings');
         break;
       case 'orders':
-        alert('إدارة الطلبات - قيد التطوير');
+        router.push('/merchant-orders');
         break;
       case 'products':
         alert('إدارة المنتجات - قيد التطوير');
@@ -213,11 +213,17 @@ export default function MerchantDashboard() {
         <View style={styles.ordersSection}>
           <View style={styles.ordersSectionHeader}>
             <Text style={styles.sectionTitle}>الطلبات الأخيرة</Text>
-            <IconSymbol name="house.fill" size={20} color="#374151" />
+            <TouchableOpacity onPress={() => router.push('/merchant-orders')}>
+              <Text style={styles.viewAllOrdersText}>عرض الكل</Text>
+            </TouchableOpacity>
           </View>
           
           {recentOrders.map((order) => (
-            <View key={order.id} style={styles.orderCard}>
+            <TouchableOpacity 
+              key={order.id} 
+              style={styles.orderCard}
+              onPress={() => router.push('/merchant-orders')}
+            >
               <View style={styles.orderInfo}>
                 <Text style={styles.orderCustomer}>{order.customer}</Text>
                 <Text style={styles.orderCode}>{order.code}</Text>
@@ -232,7 +238,7 @@ export default function MerchantDashboard() {
                 </View>
               </View>
               <IconSymbol name="paperplane.fill" size={16} color="#9ca3af" />
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
 
@@ -549,6 +555,11 @@ const styles = StyleSheet.create({
   orderStatusText: {
     fontSize: 10,
     fontWeight: '500',
+  },
+  viewAllOrdersText: {
+    fontSize: 12,
+    color: '#3b82f6',
+    fontWeight: '600',
   },
   customizationSection: {
     backgroundColor: '#fff',
