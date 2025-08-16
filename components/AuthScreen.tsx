@@ -1,468 +1,702 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
 
-interface AuthScreenProps {
-  onLogin?: (username?: string, password?: string) => void;
-  onRegister?: () => void;
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Dimensions } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { IconSymbol } from './ui/IconSymbol';
+
+interface LoginScreenProps {
+  onLogin: (username?: string, password?: string) => void;
 }
 
-export function LoginScreen({ onLogin }: AuthScreenProps) {
+interface RegisterScreenProps {
+  onRegister: () => void;
+}
+
+const { width, height } = Dimensions.get('window');
+
+export function LoginScreen({ onLogin }: LoginScreenProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const handleLogin = () => {
+    onLogin(username, password);
+  };
 
   return (
-    <ScrollView style={styles.container}>
-      <ThemedView style={styles.authCard}>
-        <View style={styles.logoContainer}>
-          <View style={styles.logo}>
-            <IconSymbol name="house.fill" size={40} color="#3b82f6" />
-          </View>
-        </View>
-
-        <View style={styles.loginIcon}>
-          <IconSymbol name="house.fill" size={32} color="#fff" />
-        </View>
-
-        <Text style={styles.title}>تسجيل الدخول</Text>
-        <Text style={styles.subtitle}>أدخل بيانات تسجيل دخولك</Text>
-
-        <View style={styles.formContainer}>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>اسم المستخدم</Text>
-            <TextInput
-              style={styles.input}
-              value={username}
-              onChangeText={setUsername}
-              placeholder="أدخل اسم المستخدم"
-              textAlign="right"
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>كلمة المرور</Text>
-            <TextInput
-              style={styles.input}
-              value={password}
-              onChangeText={setPassword}
-              placeholder="أدخل كلمة المرور"
-              secureTextEntry
-              textAlign="right"
-            />
-          </View>
-
-          <TouchableOpacity style={styles.forgotPassword}>
-            <Text style={styles.forgotPasswordText}>نسيت كلمة المرور؟</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.loginButton} onPress={() => onLogin?.(username, password)}>
-            <Text style={styles.loginButtonText}>تسجيل الدخول →</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.createAccountLink}>
-            <Text style={styles.createAccountText}>
-              ليس لديك حساب؟ <Text style={styles.linkText}>أنشئ حساب جديد</Text>
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.adminSection}>
-          <Text style={styles.adminTitle}>حسابات التجربة</Text>
-
-          <View style={styles.adminCard}>
-            <Text style={styles.adminType}>مدير التطبيق (Super Admin)</Text>
-            <View style={styles.adminBadge}>
-              <Text style={styles.adminBadgeText}>admin</Text>
+    <View style={styles.container}>
+      <LinearGradient
+        colors={['#667eea', '#764ba2']}
+        style={styles.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+      >
+        <ScrollView 
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Header Section */}
+          <View style={styles.headerSection}>
+            <View style={styles.logoContainer}>
+              <View style={styles.logo}>
+                <IconSymbol name="storefront.fill" size={40} color="#fff" />
+              </View>
             </View>
-            <View style={styles.adminBadge}>
-              <Text style={styles.adminBadgeText}>123456</Text>
-            </View>
+            <Text style={styles.appTitle}>السوق المحلي</Text>
+            <Text style={styles.appSubtitle}>اكتشف أفضل المتاجر المحلية</Text>
           </View>
 
-          <View style={styles.adminCard}>
-            <Text style={styles.adminType}>صاحب متجر (Merchant)</Text>
-            <View style={styles.adminBadge}>
-              <Text style={styles.adminBadgeText}>merchant</Text>
+          {/* Login Form */}
+          <View style={styles.formContainer}>
+            <View style={styles.formHeader}>
+              <Text style={styles.formTitle}>تسجيل الدخول</Text>
+              <Text style={styles.formSubtitle}>أهلاً بك مرة أخرى</Text>
             </View>
-            <View style={styles.adminBadge}>
-              <Text style={styles.adminBadgeText}>merchant</Text>
+
+            {/* Username Input */}
+            <View style={styles.inputContainer}>
+              <View style={styles.inputWrapper}>
+                <IconSymbol name="person.fill" size={20} color="#9ca3af" style={styles.inputIcon} />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="اسم المستخدم أو البريد الإلكتروني"
+                  placeholderTextColor="#9ca3af"
+                  value={username}
+                  onChangeText={setUsername}
+                  textAlign="right"
+                  autoCapitalize="none"
+                />
+              </View>
+            </View>
+
+            {/* Password Input */}
+            <View style={styles.inputContainer}>
+              <View style={styles.inputWrapper}>
+                <IconSymbol name="lock.fill" size={20} color="#9ca3af" style={styles.inputIcon} />
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="كلمة المرور"
+                  placeholderTextColor="#9ca3af"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry={!showPassword}
+                  textAlign="right"
+                />
+                <TouchableOpacity 
+                  style={styles.eyeIcon}
+                  onPress={() => setShowPassword(!showPassword)}
+                >
+                  <IconSymbol 
+                    name={showPassword ? "eye.slash.fill" : "eye.fill"} 
+                    size={18} 
+                    color="#9ca3af" 
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Remember Me & Forgot Password */}
+            <View style={styles.optionsRow}>
+              <TouchableOpacity style={styles.rememberMeContainer}>
+                <View style={[styles.checkbox, rememberMe && styles.checkboxActive]}>
+                  {rememberMe && <IconSymbol name="checkmark" size={12} color="#fff" />}
+                </View>
+                <Text style={styles.rememberText}>تذكرني</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity style={styles.forgotPassword}>
+                <Text style={styles.forgotText}>نسيت كلمة المرور؟</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Login Button */}
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+              <LinearGradient
+                colors={['#10b981', '#059669']}
+                style={styles.buttonGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <Text style={styles.loginButtonText}>تسجيل الدخول</Text>
+                <IconSymbol name="arrow.right" size={16} color="#fff" style={styles.buttonIcon} />
+              </LinearGradient>
+            </TouchableOpacity>
+
+            {/* Quick Login Options */}
+            <View style={styles.quickLoginSection}>
+              <Text style={styles.quickLoginTitle}>تسجيل دخول سريع</Text>
+              <View style={styles.quickLoginButtons}>
+                <TouchableOpacity 
+                  style={styles.quickLoginButton}
+                  onPress={() => onLogin('admin', '123456')}
+                >
+                  <IconSymbol name="shield.fill" size={18} color="#3b82f6" />
+                  <Text style={styles.quickLoginText}>مدير</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity 
+                  style={styles.quickLoginButton}
+                  onPress={() => onLogin('merchant', 'merchant')}
+                >
+                  <IconSymbol name="storefront.fill" size={18} color="#8b5cf6" />
+                  <Text style={styles.quickLoginText}>تاجر</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity 
+                  style={styles.quickLoginButton}
+                  onPress={() => onLogin('user', 'user')}
+                >
+                  <IconSymbol name="person.fill" size={18} color="#10b981" />
+                  <Text style={styles.quickLoginText}>مستخدم</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Divider */}
+            <View style={styles.divider}>
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>أو</Text>
+              <View style={styles.dividerLine} />
+            </View>
+
+            {/* Register Link */}
+            <View style={styles.registerSection}>
+              <Text style={styles.registerPrompt}>ليس لديك حساب؟</Text>
+              <TouchableOpacity>
+                <Text style={styles.registerLink}>إنشاء حساب جديد</Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </View>
-      </ThemedView>
-    </ScrollView>
+        </ScrollView>
+      </LinearGradient>
+    </View>
   );
 }
 
-export function RegisterScreen({ onRegister }: AuthScreenProps) {
+export function RegisterScreen({ onRegister }: RegisterScreenProps) {
   const [userType, setUserType] = useState<'customer' | 'merchant'>('customer');
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
     phone: '',
+    country: '',
     password: '',
-    confirmPassword: '',
-    city: '',
+    confirmPassword: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
 
   return (
-    <ScrollView style={styles.container}>
-      <ThemedView style={styles.authCard}>
-        <View style={styles.logoContainer}>
-          <View style={styles.logo}>
-            <IconSymbol name="house.fill" size={40} color="#3b82f6" />
-          </View>
-        </View>
-
-        <Text style={styles.title}>إنشاء حساب جديد</Text>
-        <Text style={styles.subtitle}>انضم إلى منصة التسوق الإلكتروني</Text>
-
-        <View style={styles.userTypeSelector}>
-          <Text style={styles.userTypeLabel}>نوع الحساب</Text>
-
-          <TouchableOpacity
-            style={[styles.userTypeOption, userType === 'customer' && styles.userTypeSelected]}
-            onPress={() => setUserType('customer')}
-          >
-            <IconSymbol name="house.fill" size={20} color={userType === 'customer' ? '#3b82f6' : '#64748b'} />
-            <View style={styles.userTypeText}>
-              <Text style={[styles.userTypeTitle, userType === 'customer' && styles.userTypeSelectedText]}>
-                مستخدم عادي
-              </Text>
-              <Text style={styles.userTypeDesc}>للتسوق وشراء من المتاجر المختلفة</Text>
+    <View style={styles.container}>
+      <LinearGradient
+        colors={['#667eea', '#764ba2']}
+        style={styles.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+      >
+        <ScrollView 
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Header Section */}
+          <View style={styles.headerSection}>
+            <View style={styles.logoContainer}>
+              <View style={styles.logo}>
+                <IconSymbol name="person.badge.plus.fill" size={40} color="#fff" />
+              </View>
             </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.userTypeOption, userType === 'merchant' && styles.userTypeSelected]}
-            onPress={() => setUserType('merchant')}
-          >
-            <IconSymbol name="paperplane.fill" size={20} color={userType === 'merchant' ? '#3b82f6' : '#64748b'} />
-            <View style={styles.userTypeText}>
-              <Text style={[styles.userTypeTitle, userType === 'merchant' && styles.userTypeSelectedText]}>
-                صاحب عمل
-              </Text>
-              <Text style={styles.userTypeDesc}>لإنشاء متجر وبيع المنتجات</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.formContainer}>
-          <View style={styles.inputRow}>
-            <View style={styles.inputHalf}>
-              <Text style={styles.label}>الاسم الكامل *</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="أدخل الاسم الكامل"
-                textAlign="right"
-              />
-            </View>
-            <View style={styles.inputHalf}>
-              <Text style={styles.label}>البريد الإلكتروني *</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="example@email.com"
-                textAlign="left"
-              />
-            </View>
+            <Text style={styles.appTitle}>إنشاء حساب جديد</Text>
+            <Text style={styles.appSubtitle}>انضم إلى السوق المحلي</Text>
           </View>
 
-          <View style={styles.inputRow}>
-            <View style={styles.inputHalf}>
-              <Text style={styles.label}>الدولة</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="اختر الدولة"
-                textAlign="right"
-              />
-            </View>
-            <View style={styles.inputHalf}>
-              <Text style={styles.label}>رقم الهاتف *</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="+966 50 123 4567"
-                textAlign="left"
-              />
-            </View>
-          </View>
+          {/* Register Form */}
+          <View style={styles.formContainer}>
+            {/* User Type Selection */}
+            <View style={styles.userTypeSection}>
+              <Text style={styles.userTypeTitle}>نوع الحساب</Text>
+              <View style={styles.userTypeButtons}>
+                <TouchableOpacity
+                  style={[styles.userTypeButton, userType === 'customer' && styles.userTypeButtonActive]}
+                  onPress={() => setUserType('customer')}
+                >
+                  <IconSymbol 
+                    name="person.fill" 
+                    size={24} 
+                    color={userType === 'customer' ? '#fff' : '#6b7280'} 
+                  />
+                  <Text style={[styles.userTypeText, userType === 'customer' && styles.userTypeTextActive]}>
+                    مستخدم
+                  </Text>
+                  <Text style={styles.userTypeDesc}>للتسوق والشراء</Text>
+                </TouchableOpacity>
 
-          <View style={styles.inputRow}>
-            <View style={styles.inputHalf}>
-              <Text style={styles.label}>كلمة المرور *</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="أدخل كلمة المرور"
-                secureTextEntry
-                textAlign="right"
-              />
+                <TouchableOpacity
+                  style={[styles.userTypeButton, userType === 'merchant' && styles.userTypeButtonActive]}
+                  onPress={() => setUserType('merchant')}
+                >
+                  <IconSymbol 
+                    name="storefront.fill" 
+                    size={24} 
+                    color={userType === 'merchant' ? '#fff' : '#6b7280'} 
+                  />
+                  <Text style={[styles.userTypeText, userType === 'merchant' && styles.userTypeTextActive]}>
+                    صاحب عمل
+                  </Text>
+                  <Text style={styles.userTypeDesc}>لإنشاء متجر وبيع المنتجات</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.inputHalf}>
-              <Text style={styles.label}>تأكيد كلمة المرور *</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="أعد إدخال كلمة المرور"
-                secureTextEntry
-                textAlign="right"
-              />
-            </View>
-          </View>
 
-          <View style={styles.checkboxContainer}>
-            <TouchableOpacity style={styles.checkbox}>
-              <Text style={styles.checkboxText}>
-                أوافق على الشروط والأحكام
+            {/* Form Fields */}
+            <View style={styles.formFields}>
+              {/* Full Name */}
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>الاسم الكامل *</Text>
+                <View style={styles.inputWrapper}>
+                  <IconSymbol name="person.fill" size={18} color="#9ca3af" style={styles.inputIcon} />
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder="أدخل الاسم الكامل"
+                    placeholderTextColor="#9ca3af"
+                    value={formData.fullName}
+                    onChangeText={(text) => setFormData({...formData, fullName: text})}
+                    textAlign="right"
+                  />
+                </View>
+              </View>
+
+              {/* Email */}
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>البريد الإلكتروني *</Text>
+                <View style={styles.inputWrapper}>
+                  <IconSymbol name="envelope.fill" size={18} color="#9ca3af" style={styles.inputIcon} />
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder="example@email.com"
+                    placeholderTextColor="#9ca3af"
+                    value={formData.email}
+                    onChangeText={(text) => setFormData({...formData, email: text})}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    textAlign="left"
+                  />
+                </View>
+              </View>
+
+              {/* Phone */}
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>رقم الهاتف *</Text>
+                <View style={styles.inputWrapper}>
+                  <IconSymbol name="phone.fill" size={18} color="#9ca3af" style={styles.inputIcon} />
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder="+966 50 123 4567"
+                    placeholderTextColor="#9ca3af"
+                    value={formData.phone}
+                    onChangeText={(text) => setFormData({...formData, phone: text})}
+                    keyboardType="phone-pad"
+                    textAlign="left"
+                  />
+                </View>
+              </View>
+
+              {/* Country */}
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>الدولة</Text>
+                <View style={styles.inputWrapper}>
+                  <IconSymbol name="globe" size={18} color="#9ca3af" style={styles.inputIcon} />
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder="المملكة العربية السعودية"
+                    placeholderTextColor="#9ca3af"
+                    value={formData.country}
+                    onChangeText={(text) => setFormData({...formData, country: text})}
+                    textAlign="right"
+                  />
+                  <IconSymbol name="chevron.down" size={16} color="#9ca3af" style={styles.dropdownIcon} />
+                </View>
+              </View>
+
+              {/* Password */}
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>كلمة المرور *</Text>
+                <View style={styles.inputWrapper}>
+                  <IconSymbol name="lock.fill" size={18} color="#9ca3af" style={styles.inputIcon} />
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder="أدخل كلمة مرور قوية"
+                    placeholderTextColor="#9ca3af"
+                    value={formData.password}
+                    onChangeText={(text) => setFormData({...formData, password: text})}
+                    secureTextEntry={!showPassword}
+                    textAlign="right"
+                  />
+                  <TouchableOpacity 
+                    style={styles.eyeIcon}
+                    onPress={() => setShowPassword(!showPassword)}
+                  >
+                    <IconSymbol 
+                      name={showPassword ? "eye.slash.fill" : "eye.fill"} 
+                      size={16} 
+                      color="#9ca3af" 
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              {/* Confirm Password */}
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>تأكيد كلمة المرور *</Text>
+                <View style={styles.inputWrapper}>
+                  <IconSymbol name="lock.fill" size={18} color="#9ca3af" style={styles.inputIcon} />
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder="أعد كتابة كلمة المرور"
+                    placeholderTextColor="#9ca3af"
+                    value={formData.confirmPassword}
+                    onChangeText={(text) => setFormData({...formData, confirmPassword: text})}
+                    secureTextEntry={!showConfirmPassword}
+                    textAlign="right"
+                  />
+                  <TouchableOpacity 
+                    style={styles.eyeIcon}
+                    onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    <IconSymbol 
+                      name={showConfirmPassword ? "eye.slash.fill" : "eye.fill"} 
+                      size={16} 
+                      color="#9ca3af" 
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+
+            {/* Terms Agreement */}
+            <TouchableOpacity 
+              style={styles.termsContainer}
+              onPress={() => setAgreeTerms(!agreeTerms)}
+            >
+              <View style={[styles.checkbox, agreeTerms && styles.checkboxActive]}>
+                {agreeTerms && <IconSymbol name="checkmark" size={12} color="#fff" />}
+              </View>
+              <Text style={styles.termsText}>
+                أوافق على <Text style={styles.termsLink}>شروط الاستخدام</Text> و <Text style={styles.termsLink}>سياسة الخصوصية</Text>
               </Text>
             </TouchableOpacity>
-          </View>
 
-          <View style={styles.checkboxContainer}>
-            <TouchableOpacity style={styles.checkbox}>
-              <Text style={styles.checkboxText}>
-                أوافق على شروط الشراء والتوصيل الخاصة
-              </Text>
+            {/* Register Button */}
+            <TouchableOpacity 
+              style={[styles.loginButton, !agreeTerms && styles.disabledButton]} 
+              onPress={onRegister}
+              disabled={!agreeTerms}
+            >
+              <LinearGradient
+                colors={agreeTerms ? ['#8b5cf6', '#7c3aed'] : ['#9ca3af', '#6b7280']}
+                style={styles.buttonGradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <Text style={styles.loginButtonText}>إنشاء الحساب</Text>
+                <IconSymbol name="arrow.right" size={16} color="#fff" style={styles.buttonIcon} />
+              </LinearGradient>
             </TouchableOpacity>
+
+            {/* Login Link */}
+            <View style={styles.registerSection}>
+              <Text style={styles.registerPrompt}>لديك حساب بالفعل؟</Text>
+              <TouchableOpacity>
+                <Text style={styles.registerLink}>تسجيل الدخول</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-
-          <TouchableOpacity style={styles.registerButton} onPress={onRegister}>
-            <Text style={styles.registerButtonText}>إنشاء الحساب →</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.loginLink}>
-            <Text style={styles.loginLinkText}>
-              لديك حساب بالفعل؟ <Text style={styles.linkText}>سجل الدخول</Text>
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </ThemedView>
-    </ScrollView>
+        </ScrollView>
+      </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f1f5f9',
   },
-  authCard: {
-    backgroundColor: '#fff',
-    margin: 20,
-    borderRadius: 16,
-    padding: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+  gradient: {
+    flex: 1,
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    paddingVertical: 40,
+  },
+  headerSection: {
+    alignItems: 'center',
+    marginBottom: 40,
+    paddingHorizontal: 20,
   },
   logoContainer: {
-    alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 20,
   },
   logo: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#eff6ff',
+    backgroundColor: 'rgba(255,255,255,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'rgba(255,255,255,0.3)',
   },
-  loginIcon: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#3b82f6',
-    justifyContent: 'center',
+  appTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  appSubtitle: {
+    fontSize: 16,
+    color: 'rgba(255,255,255,0.8)',
+    textAlign: 'center',
+  },
+  formContainer: {
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    borderRadius: 24,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.25,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  formHeader: {
     alignItems: 'center',
-    alignSelf: 'center',
-    marginBottom: 20,
+    marginBottom: 32,
   },
-  title: {
+  formTitle: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#1e293b',
-    textAlign: 'center',
     marginBottom: 8,
   },
-  subtitle: {
+  formSubtitle: {
     fontSize: 16,
     color: '#64748b',
-    textAlign: 'center',
-    marginBottom: 32,
   },
-  formContainer: {
-    gap: 16,
+  inputContainer: {
+    marginBottom: 20,
   },
-  inputGroup: {
-    gap: 8,
-  },
-  label: {
+  inputLabel: {
     fontSize: 14,
     fontWeight: '600',
     color: '#374151',
+    marginBottom: 8,
     textAlign: 'right',
   },
-  input: {
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    backgroundColor: '#f9fafb',
-  },
-  inputRow: {
+  inputWrapper: {
     flexDirection: 'row',
-    gap: 12,
+    alignItems: 'center',
+    backgroundColor: '#f8fafc',
+    borderRadius: 12,
+    borderWidth: 1.5,
+    borderColor: '#e2e8f0',
+    paddingHorizontal: 16,
+    height: 56,
   },
-  inputHalf: {
+  inputIcon: {
+    marginRight: 12,
+  },
+  textInput: {
     flex: 1,
-    gap: 8,
+    fontSize: 16,
+    color: '#1e293b',
+  },
+  eyeIcon: {
+    padding: 4,
+  },
+  dropdownIcon: {
+    marginLeft: 8,
+  },
+  optionsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  rememberMeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: '#d1d5db',
+    marginRight: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkboxActive: {
+    backgroundColor: '#10b981',
+    borderColor: '#10b981',
+  },
+  rememberText: {
+    fontSize: 14,
+    color: '#6b7280',
   },
   forgotPassword: {
-    alignSelf: 'flex-end',
-    marginTop: 8,
+    padding: 4,
   },
-  forgotPasswordText: {
-    color: '#3b82f6',
+  forgotText: {
     fontSize: 14,
+    color: '#8b5cf6',
+    fontWeight: '500',
   },
   loginButton: {
-    backgroundColor: '#3b82f6',
-    borderRadius: 8,
-    padding: 16,
+    marginBottom: 24,
+    borderRadius: 12,
+    overflow: 'hidden',
+  },
+  disabledButton: {
+    opacity: 0.6,
+  },
+  buttonGradient: {
+    flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
   },
   loginButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
     color: '#fff',
+    marginRight: 8,
+  },
+  buttonIcon: {
+    transform: [{ rotate: '180deg' }],
+  },
+  quickLoginSection: {
+    marginBottom: 24,
+  },
+  quickLoginTitle: {
     fontSize: 16,
     fontWeight: '600',
-  },
-  registerButton: {
-    backgroundColor: '#10b981',
-    borderRadius: 8,
-    padding: 16,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  registerButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  createAccountLink: {
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  createAccountText: {
-    color: '#64748b',
-    fontSize: 14,
-  },
-  loginLink: {
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  loginLinkText: {
-    color: '#64748b',
-    fontSize: 14,
-  },
-  linkText: {
-    color: '#3b82f6',
-    fontWeight: '600',
-  },
-  adminSection: {
-    marginTop: 32,
-    padding: 16,
-    backgroundColor: '#f8fafc',
-    borderRadius: 8,
-  },
-  adminTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1e293b',
+    color: '#374151',
     textAlign: 'center',
     marginBottom: 16,
   },
-  adminCard: {
-    backgroundColor: '#fff',
+  quickLoginButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  quickLoginButton: {
+    alignItems: 'center',
     padding: 12,
-    borderRadius: 8,
-    marginBottom: 12,
-    borderLeftWidth: 4,
-    borderLeftColor: '#3b82f6',
+    borderRadius: 12,
+    backgroundColor: '#f8fafc',
+    borderWidth: 1.5,
+    borderColor: '#e2e8f0',
+    minWidth: 80,
   },
-  adminType: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#1e293b',
-    marginBottom: 8,
-  },
-  adminBadge: {
-    backgroundColor: '#eff6ff',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 4,
-    marginBottom: 4,
-  },
-  adminBadgeText: {
+  quickLoginText: {
     fontSize: 12,
-    color: '#3b82f6',
-    textAlign: 'right',
+    color: '#6b7280',
+    marginTop: 4,
+    fontWeight: '500',
   },
-  userTypeSelector: {
-    marginBottom: 24,
-  },
-  userTypeLabel: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1e293b',
-    marginBottom: 12,
-    textAlign: 'right',
-  },
-  userTypeOption: {
+  divider: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
-    borderWidth: 2,
-    borderColor: '#e5e7eb',
-    borderRadius: 8,
-    marginBottom: 12,
-    gap: 12,
+    marginBottom: 24,
   },
-  userTypeSelected: {
-    borderColor: '#3b82f6',
-    backgroundColor: '#eff6ff',
-  },
-  userTypeText: {
+  dividerLine: {
     flex: 1,
+    height: 1,
+    backgroundColor: '#e2e8f0',
+  },
+  dividerText: {
+    fontSize: 14,
+    color: '#9ca3af',
+    paddingHorizontal: 16,
+  },
+  registerSection: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  registerPrompt: {
+    fontSize: 14,
+    color: '#6b7280',
+    marginRight: 8,
+  },
+  registerLink: {
+    fontSize: 14,
+    color: '#8b5cf6',
+    fontWeight: '600',
+  },
+  userTypeSection: {
+    marginBottom: 24,
   },
   userTypeTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#64748b',
-    textAlign: 'right',
+    color: '#374151',
+    textAlign: 'center',
+    marginBottom: 16,
   },
-  userTypeSelectedText: {
-    color: '#3b82f6',
+  userTypeButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  userTypeButton: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 12,
+    backgroundColor: '#f8fafc',
+    borderWidth: 2,
+    borderColor: '#e2e8f0',
+  },
+  userTypeButtonActive: {
+    backgroundColor: '#8b5cf6',
+    borderColor: '#8b5cf6',
+  },
+  userTypeText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#6b7280',
+    marginTop: 8,
+    marginBottom: 4,
+  },
+  userTypeTextActive: {
+    color: '#fff',
   },
   userTypeDesc: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#9ca3af',
-    marginTop: 4,
-    textAlign: 'right',
+    textAlign: 'center',
   },
-  checkboxContainer: {
-    marginVertical: 8,
+  formFields: {
+    marginBottom: 24,
   },
-  checkbox: {
+  termsContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    alignItems: 'flex-start',
+    marginBottom: 24,
+    paddingHorizontal: 4,
   },
-  checkboxText: {
+  termsText: {
     fontSize: 14,
-    color: '#64748b',
+    color: '#6b7280',
+    lineHeight: 20,
     textAlign: 'right',
     flex: 1,
+  },
+  termsLink: {
+    color: '#8b5cf6',
+    fontWeight: '500',
   },
 });
