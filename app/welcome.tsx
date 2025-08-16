@@ -26,11 +26,11 @@ export default function WelcomeScreen() {
   const welcomeSteps = [
     {
       id: 1,
-      title: 'مرحباً بك في السوق المحلي',
-      subtitle: 'اكتشف أفضل المتاجر والمنتجات في مدينتك',
+      title: 'مرحباً بك في القفة السودانية',
+      subtitle: 'اكتشف أفضل المتاجر والمنتجات السودانية',
       icon: 'storefront.fill',
       color: '#3b82f6',
-      description: 'منصة شاملة تربطك بالتجار المحليين وتوفر لك تجربة تسوق فريدة'
+      description: 'منصة شاملة تربطك بالتجار السودانيين وتوفر لك تجربة تسوق أصيلة'
     },
     {
       id: 2,

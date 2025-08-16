@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -32,7 +31,7 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
-        <ScrollView 
+        <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
@@ -43,8 +42,8 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
                 <IconSymbol name="storefront.fill" size={40} color="#fff" />
               </View>
             </View>
-            <Text style={styles.appTitle}>السوق المحلي</Text>
-            <Text style={styles.appSubtitle}>اكتشف أفضل المتاجر المحلية</Text>
+            <Text style={styles.appTitle}>القفة السودانية</Text>
+            <Text style={styles.appSubtitle}>اكتشف أفضل المتاجر السودانية</Text>
           </View>
 
           {/* Login Form */}
@@ -83,14 +82,14 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
                   secureTextEntry={!showPassword}
                   textAlign="right"
                 />
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.eyeIcon}
                   onPress={() => setShowPassword(!showPassword)}
                 >
-                  <IconSymbol 
-                    name={showPassword ? "eye.slash.fill" : "eye.fill"} 
-                    size={18} 
-                    color="#9ca3af" 
+                  <IconSymbol
+                    name={showPassword ? "eye.slash.fill" : "eye.fill"}
+                    size={18}
+                    color="#9ca3af"
                   />
                 </TouchableOpacity>
               </View>
@@ -104,7 +103,7 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
                 </View>
                 <Text style={styles.rememberText}>تذكرني</Text>
               </TouchableOpacity>
-              
+
               <TouchableOpacity style={styles.forgotPassword}>
                 <Text style={styles.forgotText}>نسيت كلمة المرور؟</Text>
               </TouchableOpacity>
@@ -127,23 +126,23 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
             <View style={styles.quickLoginSection}>
               <Text style={styles.quickLoginTitle}>تسجيل دخول سريع</Text>
               <View style={styles.quickLoginButtons}>
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.quickLoginButton}
                   onPress={() => onLogin('admin', '123456')}
                 >
                   <IconSymbol name="shield.fill" size={18} color="#3b82f6" />
                   <Text style={styles.quickLoginText}>مدير</Text>
                 </TouchableOpacity>
-                
-                <TouchableOpacity 
+
+                <TouchableOpacity
                   style={styles.quickLoginButton}
                   onPress={() => onLogin('merchant', 'merchant')}
                 >
                   <IconSymbol name="storefront.fill" size={18} color="#8b5cf6" />
                   <Text style={styles.quickLoginText}>تاجر</Text>
                 </TouchableOpacity>
-                
-                <TouchableOpacity 
+
+                <TouchableOpacity
                   style={styles.quickLoginButton}
                   onPress={() => onLogin('user', 'user')}
                 >
@@ -196,7 +195,7 @@ export function RegisterScreen({ onRegister }: RegisterScreenProps) {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
       >
-        <ScrollView 
+        <ScrollView
           contentContainerStyle={styles.scrollContainer}
           showsVerticalScrollIndicator={false}
         >
@@ -208,7 +207,7 @@ export function RegisterScreen({ onRegister }: RegisterScreenProps) {
               </View>
             </View>
             <Text style={styles.appTitle}>إنشاء حساب جديد</Text>
-            <Text style={styles.appSubtitle}>انضم إلى السوق المحلي</Text>
+            <Text style={styles.appSubtitle}>انضم إلى مجتمع القفة السودانية</Text>
           </View>
 
           {/* Register Form */}
@@ -221,10 +220,10 @@ export function RegisterScreen({ onRegister }: RegisterScreenProps) {
                   style={[styles.userTypeButton, userType === 'customer' && styles.userTypeButtonActive]}
                   onPress={() => setUserType('customer')}
                 >
-                  <IconSymbol 
-                    name="person.fill" 
-                    size={24} 
-                    color={userType === 'customer' ? '#fff' : '#6b7280'} 
+                  <IconSymbol
+                    name="person.fill"
+                    size={24}
+                    color={userType === 'customer' ? '#fff' : '#6b7280'}
                   />
                   <Text style={[styles.userTypeText, userType === 'customer' && styles.userTypeTextActive]}>
                     مستخدم
@@ -236,10 +235,10 @@ export function RegisterScreen({ onRegister }: RegisterScreenProps) {
                   style={[styles.userTypeButton, userType === 'merchant' && styles.userTypeButtonActive]}
                   onPress={() => setUserType('merchant')}
                 >
-                  <IconSymbol 
-                    name="storefront.fill" 
-                    size={24} 
-                    color={userType === 'merchant' ? '#fff' : '#6b7280'} 
+                  <IconSymbol
+                    name="storefront.fill"
+                    size={24}
+                    color={userType === 'merchant' ? '#fff' : '#6b7280'}
                   />
                   <Text style={[styles.userTypeText, userType === 'merchant' && styles.userTypeTextActive]}>
                     صاحب عمل
@@ -333,14 +332,14 @@ export function RegisterScreen({ onRegister }: RegisterScreenProps) {
                     secureTextEntry={!showPassword}
                     textAlign="right"
                   />
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     style={styles.eyeIcon}
                     onPress={() => setShowPassword(!showPassword)}
                   >
-                    <IconSymbol 
-                      name={showPassword ? "eye.slash.fill" : "eye.fill"} 
-                      size={16} 
-                      color="#9ca3af" 
+                    <IconSymbol
+                      name={showPassword ? "eye.slash.fill" : "eye.fill"}
+                      size={16}
+                      color="#9ca3af"
                     />
                   </TouchableOpacity>
                 </View>
@@ -360,14 +359,14 @@ export function RegisterScreen({ onRegister }: RegisterScreenProps) {
                     secureTextEntry={!showConfirmPassword}
                     textAlign="right"
                   />
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     style={styles.eyeIcon}
                     onPress={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
-                    <IconSymbol 
-                      name={showConfirmPassword ? "eye.slash.fill" : "eye.fill"} 
-                      size={16} 
-                      color="#9ca3af" 
+                    <IconSymbol
+                      name={showConfirmPassword ? "eye.slash.fill" : "eye.fill"}
+                      size={16}
+                      color="#9ca3af"
                     />
                   </TouchableOpacity>
                 </View>
@@ -375,7 +374,7 @@ export function RegisterScreen({ onRegister }: RegisterScreenProps) {
             </View>
 
             {/* Terms Agreement */}
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.termsContainer}
               onPress={() => setAgreeTerms(!agreeTerms)}
             >
@@ -388,8 +387,8 @@ export function RegisterScreen({ onRegister }: RegisterScreenProps) {
             </TouchableOpacity>
 
             {/* Register Button */}
-            <TouchableOpacity 
-              style={[styles.loginButton, !agreeTerms && styles.disabledButton]} 
+            <TouchableOpacity
+              style={[styles.loginButton, !agreeTerms && styles.disabledButton]}
               onPress={onRegister}
               disabled={!agreeTerms}
             >
