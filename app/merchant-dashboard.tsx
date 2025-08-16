@@ -79,7 +79,7 @@ export default function MerchantDashboard() {
         router.push('/merchant-orders');
         break;
       case 'products':
-        alert('إدارة المنتجات - قيد التطوير');
+        router.push('/merchant-products');
         break;
       case 'add-product':
         alert('إضافة منتج جديد - قيد التطوير');
