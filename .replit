@@ -1,7 +1,5 @@
-run = "npm run start"
-entrypoint = "app/index.tsx"
+run = "npm run dev"
 hidden = [".git", "node_modules"]
-
 modules = ["nodejs-20", "nix"]
 
 [nix]
@@ -24,7 +22,7 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run start"
+args = "npx expo start --tunnel --non-interactive"
 
 [[workflows.workflow]]
 name = "EAS Init"
@@ -68,4 +66,4 @@ task = "shell.exec"
 args = "EXPO_PACKAGER_PROXY_URL=https://$REPLIT_DEV_DOMAIN REACT_NATIVE_PACKAGER_HOSTNAME=$REPLIT_DEV_DOMAIN npm run dev"
 
 [deployment]
-run = ["sh", "-c", "npm run start"]
+run = ["sh", "-c", "npm run dev"]
