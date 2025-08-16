@@ -1,231 +1,239 @@
+
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, TextInput, Image } from 'react-native';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  ScrollView, 
+  TouchableOpacity, 
+  ImageBackground,
+  TextInput,
+  Dimensions 
+} from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { router } from 'expo-router';
 
+const { width: screenWidth } = Dimensions.get('window');
+
 export default function HomeScreen() {
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  
+  const [searchQuery, setSearchQuery] = useState('');
 
-  
+  const categories = [
+    { id: 1, name: 'مطاعم', icon: 'house.fill', color: '#ef4444', stores: 23 },
+    { id: 2, name: 'عطور', icon: 'paperplane.fill', color: '#8b5cf6', stores: 15 },
+    { id: 3, name: 'حرف يدوية', icon: 'chevron.right', color: '#10b981', stores: 8 },
+    { id: 4, name: 'إلكترونيات', icon: 'house.fill', color: '#3b82f6', stores: 12 },
+    { id: 5, name: 'ملابس', icon: 'paperplane.fill', color: '#f59e0b', stores: 19 },
+    { id: 6, name: 'كتب', icon: 'chevron.right', color: '#06b6d4', stores: 6 },
+  ];
 
+  const featuredStores = [
+    { 
+      id: 1, 
+      name: 'مطعم الأصالة', 
+      category: 'مطاعم', 
+      rating: 4.8, 
+      image: 'house.fill',
+      distance: '1.2 كم',
+      deliveryTime: '30-45 دقيقة'
+    },
+    { 
+      id: 2, 
+      name: 'عطور الجنة', 
+      category: 'عطور', 
+      rating: 4.9, 
+      image: 'paperplane.fill',
+      distance: '2.1 كم',
+      deliveryTime: '45-60 دقيقة'
+    },
+    { 
+      id: 3, 
+      name: 'حرف تراثية', 
+      category: 'حرف يدوية', 
+      rating: 4.7, 
+      image: 'chevron.right',
+      distance: '3.5 كم',
+      deliveryTime: '60-90 دقيقة'
+    },
+  ];
+
+  const handleLogout = () => {
+    router.replace('/auth');
+  };
+
+  const handleCategoryPress = (categoryId: number) => {
+    console.log('Category pressed:', categoryId);
+    // يمكن إضافة منطق التصفية حسب الفئة هنا
+  };
+
+  const handleStorePress = (storeId: number) => {
+    router.push('/user-store');
+  };
+
+  const handleMerchantSignup = () => {
+    router.push('/auth');
+  };
+
+  const handleSearch = () => {
+    console.log('البحث عن:', searchQuery);
+    // يمكن إضافة منطق البحث هنا
+  };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <ThemedView style={styles.header}>
-        <View style={styles.headerTop}>
-          <View style={styles.logoSection}>
-            <View style={styles.logoContainer}>
-              <Text style={styles.logoText}>SD</Text>
-            </View>
-            <View style={styles.titleSection}>
-              <Text style={styles.mainTitle}>القفة السودانية</Text>
-              <Text style={styles.subtitle}>سوق وخدمات متنوعة</Text>
-            </View>
+        <View style={styles.headerContent}>
+          <View style={styles.headerText}>
+            <Text style={styles.welcomeText}>مرحباً بك</Text>
+            <Text style={styles.title}>سوق المحلي</Text>
+            <Text style={styles.subtitle}>اكتشف أفضل المتاجر المحلية</Text>
           </View>
           <View style={styles.headerActions}>
-            <TouchableOpacity 
-              style={styles.logoutButton}
-              onPress={() => router.push('/auth')}
-            >
-              <IconSymbol name="arrow.right.square" size={20} color="#fff" />
-              <Text style={styles.logoutText}>تسجيل الخروج</Text>
+            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+              <IconSymbol name="chevron.right" size={16} color="#fff" />
+              <Text style={styles.logoutText}>خروج</Text>
             </TouchableOpacity>
-            
-            <TouchableOpacity 
-              style={styles.actionButton}
-              onPress={() => setShowUserMenu(!showUserMenu)}
-            >
-              <IconSymbol name="person.fill" size={20} color="#3b82f6" />
+            <TouchableOpacity style={styles.profileIcon}>
+              <IconSymbol name="house.fill" size={20} color="#3b82f6" />
             </TouchableOpacity>
-
-            {/* User Menu Dropdown */}
-            {showUserMenu && (
-              <View style={styles.userMenu}>
-                <TouchableOpacity 
-                  style={styles.userMenuItem}
-                  onPress={() => {
-                    setShowUserMenu(false);
-                    router.push('/dashboard');
-                  }}
-                >
-                  <IconSymbol name="house.fill" size={16} color="#374151" />
-                  <Text style={styles.userMenuText}>لوحة التحكم</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity 
-                  style={styles.userMenuItem}
-                  onPress={() => {
-                    setShowUserMenu(false);
-                    router.push('/user-settings');
-                  }}
-                >
-                  <IconSymbol name="chevron.right" size={16} color="#374151" />
-                  <Text style={styles.userMenuText}>الإعدادات</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity 
-                  style={styles.userMenuItem}
-                  onPress={() => {
-                    setShowUserMenu(false);
-                    alert('الملف الشخصي - قيد التطوير');
-                  }}
-                >
-                  <IconSymbol name="paperplane.fill" size={16} color="#374151" />
-                  <Text style={styles.userMenuText}>الملف الشخصي</Text>
-                </TouchableOpacity>
-
-                <View style={styles.userMenuDivider} />
-
-                <TouchableOpacity 
-                  style={styles.userMenuItem}
-                  onPress={() => {
-                    setShowUserMenu(false);
-                    router.push('/auth');
-                  }}
-                >
-                  <IconSymbol name="house.fill" size={16} color="#ef4444" />
-                  <Text style={[styles.userMenuText, { color: '#ef4444' }]}>تسجيل الخروج</Text>
-                </TouchableOpacity>
-              </View>
-            )}
           </View>
         </View>
-
-        
       </ThemedView>
 
       {/* Hero Section */}
       <View style={styles.heroSection}>
-        <Text style={styles.heroTitle}>القفة السودانية</Text>
-        <Text style={styles.heroSubtitle}>سوق وخدمات ومنتجات السودان في الخليج والعالم</Text>
-
-        {/* Background Image */}
-        <View style={styles.backgroundImageContainer}>
-          <Image 
-            source={require('@/attached_assets/back_1754910418880.jpeg')} 
-            style={styles.backgroundImage}
-            resizeMode="cover"
-          />
+        <ImageBackground 
+          source={{ uri: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80' }}
+          style={styles.backgroundImageContainer}
+          resizeMode="cover"
+        >
           <View style={styles.overlay} />
-        </View>
+          <View style={styles.heroContent}>
+            <Text style={styles.heroTitle}>اكتشف متاجر مدينتك</Text>
+            <Text style={styles.heroSubtitle}>
+              تسوق من المتاجر المحلية واحصل على أفضل المنتجات بأسرع وقت
+            </Text>
+            <View style={styles.actionButtons}>
+              <TouchableOpacity style={styles.primaryButton}>
+                <Text style={styles.primaryButtonText}>تصفح المتاجر</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.secondaryButton} onPress={handleMerchantSignup}>
+                <Text style={styles.secondaryButtonText}>انضم كتاجر</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ImageBackground>
+      </View>
 
-        {/* Action Buttons */}
-        <View style={styles.actionButtons}>
-          <TouchableOpacity style={styles.primaryButton}>
-            <Text style={styles.primaryButtonText}>المتاجر قريباً</Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={styles.secondaryButton}
-            onPress={() => router.push('/auth')}
-          >
-            <Text style={styles.secondaryButtonText}>عرض المنتجات</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.tertiaryButton}>
-            <Text style={styles.secondaryButtonText}>اكتشف السودان</Text>
+      {/* Search Section */}
+      <View style={styles.searchSection}>
+        <View style={styles.searchContainer}>
+          <TextInput
+            style={styles.searchInput}
+            placeholder="ابحث عن متجر أو منتج..."
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            textAlign="right"
+          />
+          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+            <IconSymbol name="house.fill" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
+      </View>
 
-        {/* Stats */}
+      {/* Categories */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>تصفح حسب الفئة</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesScroll}>
+          <View style={styles.categoriesContainer}>
+            {categories.map((category) => (
+              <TouchableOpacity 
+                key={category.id} 
+                style={styles.categoryCard}
+                onPress={() => handleCategoryPress(category.id)}
+              >
+                <View style={[styles.categoryIcon, { backgroundColor: `${category.color}20` }]}>
+                  <IconSymbol name={category.icon} size={24} color={category.color} />
+                </View>
+                <Text style={styles.categoryName}>{category.name}</Text>
+                <Text style={styles.categoryCount}>{category.stores} متجر</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
+      </View>
+
+      {/* Featured Stores */}
+      <View style={styles.section}>
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>المتاجر المميزة</Text>
+          <TouchableOpacity>
+            <Text style={styles.viewAllText}>عرض الكل</Text>
+          </TouchableOpacity>
+        </View>
+        
+        <View style={styles.storesContainer}>
+          {featuredStores.map((store) => (
+            <TouchableOpacity 
+              key={store.id} 
+              style={styles.storeCard}
+              onPress={() => handleStorePress(store.id)}
+            >
+              <View style={styles.storeImageContainer}>
+                <View style={styles.storeImage}>
+                  <IconSymbol name={store.image} size={32} color="#3b82f6" />
+                </View>
+                <View style={styles.ratingBadge}>
+                  <IconSymbol name="house.fill" size={12} color="#f59e0b" />
+                  <Text style={styles.ratingText}>{store.rating}</Text>
+                </View>
+              </View>
+              
+              <View style={styles.storeInfo}>
+                <Text style={styles.storeName}>{store.name}</Text>
+                <Text style={styles.storeCategory}>{store.category}</Text>
+                
+                <View style={styles.storeDetails}>
+                  <View style={styles.storeDetailItem}>
+                    <IconSymbol name="paperplane.fill" size={14} color="#64748b" />
+                    <Text style={styles.storeDetailText}>{store.distance}</Text>
+                  </View>
+                  <View style={styles.storeDetailItem}>
+                    <IconSymbol name="chevron.right" size={14} color="#64748b" />
+                    <Text style={styles.storeDetailText}>{store.deliveryTime}</Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
+      {/* Quick Stats */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>إحصائيات سريعة</Text>
         <View style={styles.statsContainer}>
           <View style={styles.statItem}>
-            <IconSymbol name="house.fill" size={24} color="#fff" />
-            <Text style={styles.statNumber}>+100K</Text>
-            <Text style={styles.statLabel}>مستخدم نشط</Text>
+            <Text style={styles.statNumber}>150+</Text>
+            <Text style={styles.statLabel}>متجر محلي</Text>
           </View>
           <View style={styles.statItem}>
-            <IconSymbol name="paperplane.fill" size={24} color="#fff" />
-            <Text style={styles.statNumber}>+5K</Text>
-            <Text style={styles.statLabel}>خدمة مسجلة</Text>
+            <Text style={styles.statNumber}>5000+</Text>
+            <Text style={styles.statLabel}>عميل راضي</Text>
           </View>
           <View style={styles.statItem}>
-            <IconSymbol name="chevron.right" size={24} color="#fff" />
-            <Text style={styles.statNumber}>+50K</Text>
-            <Text style={styles.statLabel}>متجر مشترك</Text>
-          </View>
-          <View style={styles.statItem}>
-            <IconSymbol name="house.fill" size={24} color="#fff" />
-            <Text style={styles.statNumber}>+2K</Text>
-            <Text style={styles.statLabel}>منتج مختار</Text>
+            <Text style={styles.statNumber}>24/7</Text>
+            <Text style={styles.statLabel}>خدمة العملاء</Text>
           </View>
         </View>
       </View>
 
-      {/* Services Grid */}
-      <View style={styles.servicesSection}>
-        <Text style={styles.sectionTitle}>خدماتنا</Text>
-        <Text style={styles.sectionSubtitle}>مجموعة متنوعة من الخدمات المتخصصة تخدم المجتمع السوداني في الخليج والعالم</Text>
-
-        <View style={styles.servicesGrid}>
-          <TouchableOpacity style={[styles.serviceCard, { backgroundColor: '#6366f1' }]}>
-            <View style={styles.serviceIcon}>
-              <IconSymbol name="house.fill" size={30} color="#fff" />
-            </View>
-            <Text style={styles.serviceTitle}>السوق التجاري</Text>
-            <Text style={styles.serviceDesc}>اكتشف منتجات متنوعة عالية الجودة من موردين موثوقين</Text>
-            <TouchableOpacity style={styles.serviceButton}>
-              <Text style={styles.serviceButtonText}>اكتشف المزيد</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.serviceCard, { backgroundColor: '#10b981' }]}>
-            <View style={styles.serviceIcon}>
-              <IconSymbol name="paperplane.fill" size={30} color="#fff" />
-            </View>
-            <Text style={styles.serviceTitle}>دليل الشركات</Text>
-            <Text style={styles.serviceDesc}>تواصل مع الشركات والمؤسسات السودانية في الخليج</Text>
-            <TouchableOpacity style={styles.serviceButton}>
-              <Text style={styles.serviceButtonText}>اكتشف المزيد</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.serviceCard, { backgroundColor: '#f59e0b' }]}>
-            <View style={styles.serviceIcon}>
-              <IconSymbol name="house.fill" size={30} color="#fff" />
-            </View>
-            <Text style={styles.serviceTitle}>الخدمات المهنية</Text>
-            <Text style={styles.serviceDesc}>احصل على خدمات مهنية من خبراء مختصين في مختلف المجالات</Text>
-            <TouchableOpacity style={styles.serviceButton}>
-              <Text style={styles.serviceButtonText}>اكتشف المزيد</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.serviceCard, { backgroundColor: '#8b5cf6' }]}>
-            <View style={styles.serviceIcon}>
-              <IconSymbol name="chevron.right" size={30} color="#fff" />
-            </View>
-            <Text style={styles.serviceTitle}>لوحة الوظائف</Text>
-            <Text style={styles.serviceDesc}>ابحث عن وظائف أو أعلن عن وظائف شاغرة</Text>
-            <TouchableOpacity style={styles.serviceButton}>
-              <Text style={styles.serviceButtonText}>اكتشف الوظائف</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.serviceCard, { backgroundColor: '#ef4444' }]}>
-            <View style={styles.serviceIcon}>
-              <IconSymbol name="house.fill" size={30} color="#fff" />
-            </View>
-            <Text style={styles.serviceTitle}>إعلانات</Text>
-            <Text style={styles.serviceDesc}>تصفح إعلانات ومنتجات المجتمع السوداني</Text>
-            <TouchableOpacity style={styles.serviceButton}>
-              <Text style={styles.serviceButtonText}>اكتشف المزيد</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={[styles.serviceCard, { backgroundColor: '#f97316' }]}>
-            <View style={styles.serviceIcon}>
-              <IconSymbol name="paperplane.fill" size={30} color="#fff" />
-            </View>
-            <Text style={styles.serviceTitle}>الخدمات الحكومية</Text>
-            <Text style={styles.serviceDesc}>خدمات حكومية مختلفة من جهات معتمدة</Text>
-            <TouchableOpacity style={styles.serviceButton}>
-              <Text style={styles.serviceButtonText}>اكتشف المزيد</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-        </View>
+      {/* Footer */}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>سوق المحلي - دعم التجارة المحلية</Text>
+        <Text style={styles.footerSubtext}>جميع الحقوق محفوظة © 2024</Text>
       </View>
     </ScrollView>
   );
@@ -237,57 +245,41 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8fafc',
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: '#1e293b',
     paddingTop: 50,
     paddingBottom: 20,
     paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e5e7eb',
   },
-  headerTop: {
+  headerContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
   },
-  logoSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
+  headerText: {
+    flex: 1,
   },
-  logoContainer: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: '#3b82f6',
-    justifyContent: 'center',
-    alignItems: 'center',
+  welcomeText: {
+    color: '#94a3b8',
+    fontSize: 14,
+    marginBottom: 4,
+    textAlign: 'right',
   },
-  logoText: {
+  title: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
-  },
-  titleSection: {
-    alignItems: 'flex-start',
-  },
-  mainTitle: {
-    color: '#1e293b',
-    fontSize: 20,
-    fontWeight: 'bold',
+    marginBottom: 4,
     textAlign: 'right',
   },
   subtitle: {
-    color: '#64748b',
-    fontSize: 12,
+    color: '#94a3b8',
+    fontSize: 14,
     textAlign: 'right',
   },
   headerActions: {
     flexDirection: 'row',
     gap: 8,
-    position: 'relative',
     alignItems: 'center',
-    zIndex: 3000,
   },
   logoutButton: {
     flexDirection: 'row',
@@ -311,25 +303,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  
   heroSection: {
-    paddingVertical: 80,
-    paddingHorizontal: 20,
-    alignItems: 'center',
+    height: 300,
     position: 'relative',
-    minHeight: 400,
   },
   backgroundImageContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    overflow: 'hidden',
-  },
-  backgroundImage: {
-    width: '100%',
-    height: '100%',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   overlay: {
     position: 'absolute',
@@ -337,14 +318,19 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(30, 41, 59, 0.7)', // Dark overlay for better text readability
+    backgroundColor: 'rgba(30, 41, 59, 0.7)',
+  },
+  heroContent: {
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    zIndex: 1,
   },
   heroTitle: {
-    fontSize: 36,
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#fff',
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   heroSubtitle: {
     fontSize: 16,
@@ -355,8 +341,7 @@ const styles = StyleSheet.create({
   },
   actionButtons: {
     flexDirection: 'row',
-    gap: 15,
-    marginBottom: 50,
+    gap: 12,
   },
   primaryButton: {
     backgroundColor: '#3b82f6',
@@ -370,147 +355,236 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   secondaryButton: {
-    borderWidth: 2,
-    borderColor: '#3b82f6',
+    backgroundColor: 'transparent',
     paddingHorizontal: 24,
     paddingVertical: 12,
     borderRadius: 25,
+    borderWidth: 2,
+    borderColor: '#fff',
   },
   secondaryButtonText: {
-    color: '#3b82f6',
+    color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
-  tertiaryButton: {
-    paddingHorizontal: 24,
+  searchSection: {
+    padding: 20,
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    marginTop: -30,
+    borderRadius: 16,
+    zIndex: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 5,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  searchInput: {
+    flex: 1,
+    backgroundColor: '#f1f5f9',
+    borderRadius: 12,
+    paddingHorizontal: 16,
     paddingVertical: 12,
-    borderRadius: 25,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+  },
+  searchButton: {
+    backgroundColor: '#3b82f6',
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  section: {
+    marginTop: 32,
+    paddingHorizontal: 20,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1e293b',
+    marginBottom: 16,
+    textAlign: 'right',
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  viewAllText: {
+    color: '#3b82f6',
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  categoriesScroll: {
+    marginLeft: -20,
+  },
+  categoriesContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    gap: 16,
+  },
+  categoryCard: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 20,
+    width: 120,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  categoryIcon: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  categoryName: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#1e293b',
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  categoryCount: {
+    fontSize: 12,
+    color: '#64748b',
+    textAlign: 'center',
+  },
+  storesContainer: {
+    gap: 16,
+  },
+  storeCard: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 16,
+    flexDirection: 'row',
+    gap: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  storeImageContainer: {
+    position: 'relative',
+  },
+  storeImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 12,
+    backgroundColor: '#f1f5f9',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ratingBadge: {
+    position: 'absolute',
+    top: -8,
+    right: -8,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  ratingText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#1e293b',
+  },
+  storeInfo: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  storeName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#1e293b',
+    marginBottom: 4,
+    textAlign: 'right',
+  },
+  storeCategory: {
+    fontSize: 14,
+    color: '#64748b',
+    marginBottom: 8,
+    textAlign: 'right',
+  },
+  storeDetails: {
+    gap: 4,
+  },
+  storeDetailItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    justifyContent: 'flex-end',
+  },
+  storeDetailText: {
+    fontSize: 12,
+    color: '#64748b',
   },
   statsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
   statItem: {
-    alignItems: 'center',
     flex: 1,
+    alignItems: 'center',
   },
   statNumber: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#fff',
-    marginTop: 8,
+    color: '#3b82f6',
+    marginBottom: 4,
   },
   statLabel: {
     fontSize: 12,
-    color: '#cbd5e1',
-    marginTop: 4,
-    textAlign: 'center',
-  },
-  servicesSection: {
-    padding: 20,
-  },
-  sectionTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#1e293b',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  sectionSubtitle: {
-    fontSize: 16,
     color: '#64748b',
     textAlign: 'center',
-    marginBottom: 30,
-    lineHeight: 24,
   },
-  servicesGrid: {
-    gap: 20,
-  },
-  serviceCard: {
-    borderRadius: 16,
-    padding: 24,
-    marginBottom: 16,
-  },
-  serviceIcon: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    justifyContent: 'center',
+  footer: {
+    marginTop: 40,
+    backgroundColor: '#1e293b',
+    padding: 32,
     alignItems: 'center',
-    marginBottom: 16,
   },
-  serviceTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  footerText: {
     color: '#fff',
-    marginBottom: 8,
-  },
-  serviceDesc: {
-    fontSize: 14,
-    color: 'rgba(255,255,255,0.8)',
-    lineHeight: 20,
-    marginBottom: 20,
-  },
-  serviceButton: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 20,
-    alignSelf: 'flex-start',
-  },
-  serviceButtonText: {
-    color: '#fff',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '600',
+    marginBottom: 8,
+    textAlign: 'center',
   },
-  // User Menu Styles
-  actionButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#f3f4f6',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  userMenu: {
-    position: 'absolute',
-    top: 45,
-    right: 0,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    paddingVertical: 8,
-    minWidth: 180,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 15,
-    zIndex: 4000,
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-  },
-  userMenuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 12,
-  },
-  userMenuText: {
+  footerSubtext: {
+    color: '#94a3b8',
     fontSize: 14,
-    color: '#374151',
-    textAlign: 'right',
-    flex: 1,
-  },
-  userMenuDivider: {
-    height: 1,
-    backgroundColor: '#e5e7eb',
-    marginVertical: 4,
-    marginHorizontal: 16,
+    textAlign: 'center',
   },
 });
