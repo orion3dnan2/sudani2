@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start --tunnel --non-interactive",
-    "dev": "expo start --clear --tunnel",
+    "dev": "expo start --tunnel --non-interactive",
     "fast": "expo start --no-dev --minify",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android --tunnel --non-interactive",
