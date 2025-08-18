@@ -1,10 +1,9 @@
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Switch, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Switch } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { router } from 'expo-router';
-import * as ImagePicker from 'expo-image-picker';
 
 export default function StoreSettings() {
   const [storeInfo, setStoreInfo] = useState({
@@ -13,9 +12,7 @@ export default function StoreSettings() {
     email: 'store@example.com',
     phone: '+966501234567',
     city: 'الرياض، المملكة العربية السعودية',
-    address: 'شارع الملك عبدالله، حي الملك فهد، الرياض',
-    logoImage: null as string | null,
-    coverImage: null as string | null
+    address: 'شارع الملك عبدالله، حي الملك فهد، الرياض'
   });
 
   const [workingHours, setWorkingHours] = useState({
@@ -42,49 +39,14 @@ export default function StoreSettings() {
     alert('تم حفظ الإعدادات بنجاح');
   };
 
-  const requestPermissions = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('إذن مطلوب', 'نحتاج إذن للوصول إلى صور الجهاز');
-      return false;
-    }
-    return true;
-  };
-
-  const pickImage = async (imageType: 'logo' | 'cover') => {
-    const hasPermission = await requestPermissions();
-    if (!hasPermission) return;
-
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: imageType === 'logo' ? [1, 1] : [16, 9],
-        quality: 0.8,
-      });
-
-      if (!result.canceled && result.assets[0]) {
-        const imageUri = result.assets[0].uri;
-        
-        if (imageType === 'logo') {
-          setStoreInfo({ ...storeInfo, logoImage: imageUri });
-          Alert.alert('نجح', 'تم تغيير شعار المتجر بنجاح');
-        } else {
-          setStoreInfo({ ...storeInfo, coverImage: imageUri });
-          Alert.alert('نجح', 'تم تغيير صورة غلاف المتجر بنجاح');
-        }
-      }
-    } catch (error) {
-      Alert.alert('خطأ', 'حدث خطأ أثناء اختيار الصورة');
-    }
-  };
-
   const handleChangeImage = () => {
-    pickImage('logo');
+    // منطق تغيير صورة المتجر
+    alert('تم تغيير الصورة');
   };
 
   const handleChangeStoreImage = () => {
-    pickImage('cover');
+    // منطق تغيير صورة غلاف المتجر
+    alert('تم تغيير صورة الغلاف');
   };
 
   const toggleWorkingDay = (day: string) => {
@@ -129,11 +91,7 @@ export default function StoreSettings() {
               <Text style={styles.imageLabel}>شعار المتجر</Text>
               <View style={styles.imageUploadContainer}>
                 <View style={styles.imagePreview}>
-                  {storeInfo.logoImage ? (
-                    <Image source={{ uri: storeInfo.logoImage }} style={styles.selectedImage} />
-                  ) : (
-                    <IconSymbol name="paperplane.fill" size={40} color="#8b5cf6" />
-                  )}
+                  <IconSymbol name="paperplane.fill" size={40} color="#8b5cf6" />
                 </View>
                 <TouchableOpacity style={styles.changeImageButton} onPress={handleChangeImage}>
                   <Text style={styles.changeImageText}>تغيير الصورة</Text>
@@ -146,11 +104,7 @@ export default function StoreSettings() {
               <Text style={styles.imageLabel}>غلاف المتجر</Text>
               <View style={styles.imageUploadContainer}>
                 <View style={styles.imagePreview}>
-                  {storeInfo.coverImage ? (
-                    <Image source={{ uri: storeInfo.coverImage }} style={styles.selectedImage} />
-                  ) : (
-                    <IconSymbol name="house.fill" size={40} color="#8b5cf6" />
-                  )}
+                  <IconSymbol name="house.fill" size={40} color="#8b5cf6" />
                 </View>
                 <TouchableOpacity style={styles.changeImageButton} onPress={handleChangeStoreImage}>
                   <Text style={styles.changeImageText}>تغيير الصورة</Text>
@@ -435,11 +389,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
     fontWeight: '500',
-  },
-  selectedImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 12,
   },
   inputGroup: {
     marginBottom: 16,
