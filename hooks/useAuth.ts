@@ -1,4 +1,3 @@
-
 import { useState, useEffect, createContext, useContext } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { apiService } from '@/services/api';
@@ -37,7 +36,7 @@ export const useAuthProvider = () => {
     try {
       const storedToken = await AsyncStorage.getItem('auth_token');
       const storedUser = await AsyncStorage.getItem('user_data');
-      
+
       if (storedToken && storedUser) {
         setToken(storedToken);
         setUser(JSON.parse(storedUser));
@@ -53,20 +52,20 @@ export const useAuthProvider = () => {
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       const response = await apiService.login(email, password);
-      
+
       if (response.success && response.data) {
         const { user: userData, token: authToken } = response.data;
-        
+
         await AsyncStorage.setItem('auth_token', authToken);
         await AsyncStorage.setItem('user_data', JSON.stringify(userData));
-        
+
         setToken(authToken);
         setUser(userData);
         apiService.setAuthToken(authToken);
-        
+
         return true;
       }
-      
+
       return false;
     } catch (error) {
       console.error('Login error:', error);
@@ -77,20 +76,20 @@ export const useAuthProvider = () => {
   const register = async (userData: any): Promise<boolean> => {
     try {
       const response = await apiService.register(userData);
-      
+
       if (response.success && response.data) {
         const { user: newUser, token: authToken } = response.data;
-        
+
         await AsyncStorage.setItem('auth_token', authToken);
         await AsyncStorage.setItem('user_data', JSON.stringify(newUser));
-        
+
         setToken(authToken);
         setUser(newUser);
         apiService.setAuthToken(authToken);
-        
+
         return true;
       }
-      
+
       return false;
     } catch (error) {
       console.error('Register error:', error);
@@ -106,7 +105,7 @@ export const useAuthProvider = () => {
     } finally {
       await AsyncStorage.removeItem('auth_token');
       await AsyncStorage.removeItem('user_data');
-      
+
       setToken(null);
       setUser(null);
       apiService.setAuthToken('');
