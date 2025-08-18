@@ -22,7 +22,7 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npx expo start --tunnel --non-interactive"
+args = "npm run start"
 
 [[workflows.workflow]]
 name = "EAS Init"
