@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Image } from 'rea
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { router } from 'expo-router';
 
 export default function ExploreScreen() {
   const categories = [
@@ -21,6 +22,36 @@ export default function ExploreScreen() {
     { id: 3, name: 'خدمات التوصيل السريع', category: 'خدمات', rating: 4.7, image: require('@/assets/images/react-logo.png') },
   ];
 
+  const handleCategoryPress = (categoryId: number, categoryName: string) => {
+    // ربط فئات معينة بصفحات مخصصة
+    if (categoryId === 1) { // المطاعم
+      router.push('/restaurants');
+    } else {
+      router.push(`/category-stores?categoryId=${categoryId}&categoryName=${encodeURIComponent(categoryName)}`);
+    }
+  };
+
+  const handleStorePress = (storeId: number) => {
+    router.push(`/user-store?storeId=${storeId}`);
+  };
+
+  const handleQuickActionPress = (action: string) => {
+    switch (action) {
+      case 'add_store':
+        router.push('/store-settings');
+        break;
+      case 'post_ad':
+        router.push('/merchant-add-product');
+        break;
+      case 'request_service':
+        // يمكن إضافة صفحة طلب الخدمات لاحقاً
+        alert('صفحة طلب الخدمات قيد التطوير');
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       {/* Header */}
@@ -34,7 +65,11 @@ export default function ExploreScreen() {
         <Text style={styles.sectionTitle}>الفئات الرئيسية</Text>
         <View style={styles.categoriesGrid}>
           {categories.map((category) => (
-            <TouchableOpacity key={category.id} style={styles.categoryCard}>
+            <TouchableOpacity 
+              key={category.id} 
+              style={styles.categoryCard}
+              onPress={() => handleCategoryPress(category.id, category.name)}
+            >
               <View style={[styles.categoryIcon, { backgroundColor: category.color }]}>
                 <IconSymbol name={category.icon as any} size={24} color="#fff" />
               </View>
@@ -50,7 +85,11 @@ export default function ExploreScreen() {
         <Text style={styles.sectionTitle}>المتاجر المميزة</Text>
         <View style={styles.storesContainer}>
           {featuredStores.map((store) => (
-            <TouchableOpacity key={store.id} style={styles.storeCard}>
+            <TouchableOpacity 
+              key={store.id} 
+              style={styles.storeCard}
+              onPress={() => handleStorePress(store.id)}
+            >
               <Image source={store.image} style={styles.storeImage} />
               <View style={styles.storeInfo}>
                 <Text style={styles.storeName}>{store.name}</Text>
@@ -69,15 +108,24 @@ export default function ExploreScreen() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>إجراءات سريعة</Text>
         <View style={styles.quickActions}>
-          <TouchableOpacity style={styles.quickAction}>
+          <TouchableOpacity 
+            style={styles.quickAction}
+            onPress={() => handleQuickActionPress('add_store')}
+          >
             <IconSymbol name="paperplane.fill" size={24} color="#3b82f6" />
             <Text style={styles.quickActionText}>إضافة متجر</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.quickAction}>
+          <TouchableOpacity 
+            style={styles.quickAction}
+            onPress={() => handleQuickActionPress('post_ad')}
+          >
             <IconSymbol name="house.fill" size={24} color="#10b981" />
             <Text style={styles.quickActionText}>نشر إعلان</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.quickAction}>
+          <TouchableOpacity 
+            style={styles.quickAction}
+            onPress={() => handleQuickActionPress('request_service')}
+          >
             <IconSymbol name="chevron.right" size={24} color="#f59e0b" />
             <Text style={styles.quickActionText}>طلب خدمة</Text>
           </TouchableOpacity>
