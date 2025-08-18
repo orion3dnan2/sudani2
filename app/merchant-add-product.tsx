@@ -47,14 +47,121 @@ export default function MerchantAddProduct() {
   const [showImagePicker, setShowImagePicker] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const categories = [
-    'العطور',
-    'المسك',
-    'العود',
-    'الزيوت',
-    'البخور',
-    'أخرى'
+  // نوع المتجر - في التطبيق الحقيقي سيأتي من بيانات المستخدم
+  const [storeType, setStoreType] = useState('perfumes'); // افتراضي: متجر عطور
+
+  // فئات حسب نوع المتجر
+  const storeCategories = {
+    perfumes: [
+      'العطور الفرنسية',
+      'العطور العربية',
+      'المسك',
+      'العود',
+      'الزيوت العطرية',
+      'البخور',
+      'عطور نسائية',
+      'عطور رجالية',
+      'عطور أطفال',
+      'أخرى'
+    ],
+    clothing: [
+      'ملابس رجالية',
+      'ملابس نسائية',
+      'ملابس أطفال',
+      'أحذية',
+      'حقائب',
+      'إكسسوارات',
+      'ساعات',
+      'مجوهرات',
+      'نظارات',
+      'أخرى'
+    ],
+    electronics: [
+      'هواتف ذكية',
+      'حاسوب وأجهزة لوحية',
+      'ألعاب فيديو',
+      'كاميرات',
+      'سماعات',
+      'أجهزة منزلية',
+      'إكسسوارات إلكترونية',
+      'شواحن وكابلات',
+      'أجهزة رياضية ذكية',
+      'أخرى'
+    ],
+    books: [
+      'كتب دينية',
+      'كتب أدبية',
+      'كتب علمية',
+      'كتب تاريخية',
+      'كتب أطفال',
+      'كتب تطوير الذات',
+      'كتب طبخ',
+      'مجلات',
+      'كتب مدرسية',
+      'أخرى'
+    ],
+    food: [
+      'مخبوزات',
+      'حلويات',
+      'مشروبات',
+      'توابل وبهارات',
+      'معلبات',
+      'منتجات طازجة',
+      'وجبات جاهزة',
+      'منتجات صحية',
+      'وجبات خفيفة',
+      'أخرى'
+    ],
+    beauty: [
+      'منتجات العناية بالبشرة',
+      'مكياج',
+      'منتجات الشعر',
+      'عطور ومزيل العرق',
+      'منتجات الاستحمام',
+      'أدوات التجميل',
+      'منتجات طبيعية',
+      'منتجات الرجال',
+      'منتجات الأطفال',
+      'أخرى'
+    ],
+    home: [
+      'أثاث',
+      'ديكورات',
+      'إضاءة',
+      'منسوجات منزلية',
+      'أدوات مطبخ',
+      'أدوات تنظيف',
+      'نباتات وحدائق',
+      'أدوات كهربائية',
+      'منتجات التخزين',
+      'أخرى'
+    ],
+    sports: [
+      'ملابس رياضية',
+      'أحذية رياضية',
+      'معدات لياقة بدنية',
+      'معدات كرة القدم',
+      'معدات السباحة',
+      'معدات الجري',
+      'دراجات هوائية',
+      'معدات التخييم',
+      'مكملات غذائية',
+      'أخرى'
+    ]
+  };
+
+  const storeTypes = [
+    { id: 'perfumes', name: 'متجر عطور ومستحضرات', icon: '🌸' },
+    { id: 'clothing', name: 'متجر ملابس وأزياء', icon: '👗' },
+    { id: 'electronics', name: 'متجر إلكترونيات', icon: '📱' },
+    { id: 'books', name: 'مكتبة وكتب', icon: '📚' },
+    { id: 'food', name: 'متجر أغذية ومأكولات', icon: '🍯' },
+    { id: 'beauty', name: 'متجر تجميل وعناية', icon: '💄' },
+    { id: 'home', name: 'متجر منزلي وديكور', icon: '🏠' },
+    { id: 'sports', name: 'متجر رياضي', icon: '⚽' }
   ];
+
+  const categories = storeCategories[storeType as keyof typeof storeCategories] || storeCategories.perfumes;
 
   const emojis = [
     '🌸', '🤍', '🪵', '🌹', '💎', '✨',
@@ -271,6 +378,38 @@ export default function MerchantAddProduct() {
           </View>
         </View>
 
+        {/* Store Type Selection */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>🏪 نوع المتجر</Text>
+          
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View style={styles.storeTypeContainer}>
+              {storeTypes.map((type) => (
+                <TouchableOpacity
+                  key={type.id}
+                  style={[
+                    styles.storeTypeChip,
+                    storeType === type.id && styles.selectedStoreType
+                  ]}
+                  onPress={() => {
+                    setStoreType(type.id);
+                    // إعادة تعيين الفئة المختارة عند تغيير نوع المتجر
+                    setFormData({ ...formData, category: '' });
+                  }}
+                >
+                  <Text style={styles.storeTypeEmoji}>{type.icon}</Text>
+                  <Text style={[
+                    styles.storeTypeText,
+                    storeType === type.id && styles.selectedStoreTypeText
+                  ]}>
+                    {type.name}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+
         {/* Basic Information */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>📝 المعلومات الأساسية</Text>
@@ -313,7 +452,12 @@ export default function MerchantAddProduct() {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.inputLabel}>الفئة *</Text>
+            <Text style={styles.inputLabel}>
+              الفئة * 
+              <Text style={styles.categoryNote}>
+                (حسب نوع المتجر: {storeTypes.find(t => t.id === storeType)?.name})
+              </Text>
+            </Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.categoryContainer}>
                 {categories.map((category) => (
@@ -661,6 +805,43 @@ const styles = StyleSheet.create({
   },
   selectedCategoryText: {
     color: '#fff',
+  },
+  storeTypeContainer: {
+    flexDirection: 'row',
+    gap: 12,
+    paddingVertical: 4,
+  },
+  storeTypeChip: {
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 12,
+    backgroundColor: '#f3f4f6',
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    alignItems: 'center',
+    minWidth: 120,
+  },
+  selectedStoreType: {
+    backgroundColor: '#3b82f6',
+    borderColor: '#3b82f6',
+  },
+  storeTypeEmoji: {
+    fontSize: 20,
+    marginBottom: 4,
+  },
+  storeTypeText: {
+    fontSize: 11,
+    color: '#6b7280',
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  selectedStoreTypeText: {
+    color: '#fff',
+  },
+  categoryNote: {
+    fontSize: 11,
+    color: '#6b7280',
+    fontWeight: 'normal',
   },
   row: {
     flexDirection: 'row',
