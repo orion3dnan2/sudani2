@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
@@ -82,7 +81,7 @@ export default function MerchantDashboard() {
         router.push('/merchant-products');
         break;
       case 'add-product':
-        alert('إضافة منتج جديد - قيد التطوير');
+        router.push('/merchant-add-product');
         break;
       default:
         break;
@@ -132,8 +131,8 @@ export default function MerchantDashboard() {
       {/* Quick Actions */}
       <View style={styles.quickActionsContainer}>
         {quickActions.map((action) => (
-          <TouchableOpacity 
-            key={action.id} 
+          <TouchableOpacity
+            key={action.id}
             style={[
               styles.quickActionCard,
               action.isHighlighted && styles.highlightedAction
@@ -163,7 +162,7 @@ export default function MerchantDashboard() {
           <TouchableOpacity style={styles.viewDetailsButton} onPress={() => alert('عرض التفاصيل - قيد التطوير')}>
             <Text style={styles.viewDetailsText}>عرض التفاصيل</Text>
           </TouchableOpacity>
-          
+
           <View style={styles.performanceGrid}>
             <View style={styles.performanceCard}>
               <Text style={styles.performanceValue}>{storePerformance.totalOrders}</Text>
@@ -217,10 +216,10 @@ export default function MerchantDashboard() {
               <Text style={styles.viewAllOrdersText}>عرض الكل</Text>
             </TouchableOpacity>
           </View>
-          
+
           {recentOrders.map((order) => (
-            <TouchableOpacity 
-              key={order.id} 
+            <TouchableOpacity
+              key={order.id}
               style={styles.orderCard}
               onPress={() => router.push('/merchant-orders')}
             >

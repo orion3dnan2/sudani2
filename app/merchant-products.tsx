@@ -425,7 +425,7 @@ export default function MerchantProducts() {
 
           <TouchableOpacity
             style={styles.addButton}
-            onPress={() => setShowAddModal(true)}
+            onPress={() => router.push('/merchant-add-product')}
           >
             <IconSymbol name="house.fill" size={16} color="#fff" />
             <Text style={styles.addButtonText}>إضافة</Text>
@@ -495,7 +495,7 @@ export default function MerchantProducts() {
             {!searchQuery && (
               <TouchableOpacity
                 style={styles.addFirstProductButton}
-                onPress={() => setShowAddModal(true)}
+                onPress={() => router.push('/merchant-add-product')}
               >
                 <Text style={styles.addFirstProductText}>إضافة أول منتج</Text>
               </TouchableOpacity>
