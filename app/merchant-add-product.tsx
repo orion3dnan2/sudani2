@@ -78,9 +78,21 @@ export default function MerchantAddProduct() {
   };
 
   const hasUnsavedChanges = () => {
-    return Object.values(formData).some(value => 
-      typeof value === 'string' ? value.trim() !== '' : value !== false
-    );
+    return formData.name.trim() !== '' || 
+           formData.arabicName.trim() !== '' || 
+           formData.description.trim() !== '' ||
+           formData.category !== '' ||
+           formData.price.trim() !== '' ||
+           formData.salePrice.trim() !== '' ||
+           formData.stock.trim() !== '' ||
+           formData.image !== '' ||
+           formData.sku.trim() !== '' ||
+           formData.weight.trim() !== '' ||
+           formData.dimensions.trim() !== '' ||
+           formData.tags.trim() !== '' ||
+           formData.featured === true ||
+           formData.allowReviews === false ||
+           formData.trackStock === false;
   };
 
   const validateForm = () => {
@@ -108,25 +120,38 @@ export default function MerchantAddProduct() {
   };
 
   const handleSave = async (saveAs: 'draft' | 'active') => {
-    const errors = validateForm();
-    
-    if (errors.length > 0) {
-      Alert.alert('خطأ في البيانات', errors.join('\n'));
-      return;
+    // للمسودة، لا نحتاج للتحقق من جميع الحقول المطلوبة
+    if (saveAs === 'active') {
+      const errors = validateForm();
+      
+      if (errors.length > 0) {
+        Alert.alert('خطأ في البيانات', errors.join('\n'));
+        return;
+      }
+    } else {
+      // للمسودة، نحتاج فقط اسم المنتج
+      if (!formData.name.trim() && !formData.arabicName.trim()) {
+        Alert.alert('خطأ', 'يجب إدخال اسم المنتج على الأقل لحفظ المسودة');
+        return;
+      }
     }
 
     setIsLoading(true);
 
     try {
       // محاكاة حفظ المنتج
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
       const productData = {
         ...formData,
         status: saveAs,
         sku: formData.sku || `PRD-${Date.now()}`,
-        image: formData.image || '📦'
+        image: formData.image || '📦',
+        dateAdded: new Date().toISOString(),
+        id: Date.now()
       };
+
+      console.log('Product saved:', productData);
 
       Alert.alert(
         'تم بنجاح',
@@ -143,6 +168,14 @@ export default function MerchantAddProduct() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleDraftSave = () => {
+    if (!formData.name.trim() && !formData.arabicName.trim()) {
+      Alert.alert('تنبيه', 'يجب إدخال اسم المنتج على الأقل لحفظ المسودة');
+      return;
+    }
+    handleSave('draft');
   };
 
   const generateSKU = () => {
@@ -204,11 +237,13 @@ export default function MerchantAddProduct() {
 
           <View style={styles.headerActions}>
             <TouchableOpacity
-              style={styles.draftButton}
-              onPress={() => handleSave('draft')}
+              style={[styles.draftButton, isLoading && styles.disabledButton]}
+              onPress={handleDraftSave}
               disabled={isLoading}
             >
-              <Text style={styles.draftButtonText}>مسودة</Text>
+              <Text style={[styles.draftButtonText, isLoading && styles.disabledButtonText]}>
+                {isLoading ? 'جاري الحفظ...' : 'مسودة'}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -526,6 +561,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
     fontWeight: '600',
+  },
+  disabledButton: {
+    opacity: 0.6,
+  },
+  disabledButtonText: {
+    opacity: 0.8,
   },
   content: {
     flex: 1,
