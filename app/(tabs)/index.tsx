@@ -57,6 +57,23 @@ export default function HomeScreen() {
 
   return (
     <ScrollView style={styles.container}>
+      {/* Header Bar */}
+      <View style={styles.headerBar}>
+        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+          <IconSymbol name="arrow.right.square" size={20} color="#ef4444" />
+          <Text style={styles.logoutText}>خروج</Text>
+        </TouchableOpacity>
+        
+        <Text style={styles.appTitle}>القفة السودانية</Text>
+        
+        <TouchableOpacity 
+          style={styles.profileButton} 
+          onPress={() => router.push('/user-settings')}
+        >
+          <IconSymbol name="person.circle.fill" size={28} color="#059669" />
+        </TouchableOpacity>
+      </View>
+
       {/* Hero Section */}
       <View style={styles.heroSection}>
         <LinearGradient
@@ -165,6 +182,39 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8fafc',
+  },
+  headerBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    paddingTop: 50,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e2e8f0',
+  },
+  appTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#1e293b',
+  },
+  profileButton: {
+    padding: 4,
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    backgroundColor: '#fef2f2',
+    gap: 6,
+  },
+  logoutText: {
+    fontSize: 14,
+    color: '#ef4444',
+    fontWeight: '500',
   },
   loadingContainer: {
     flex: 1,
