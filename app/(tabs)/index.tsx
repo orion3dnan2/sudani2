@@ -22,10 +22,14 @@ export default function HomeScreen() {
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   const categories = [
-    { id: 1, name: 'مطاعم', icon: 'fork.knife', color: '#ef4444' },
-    { id: 2, name: 'بقالة', icon: 'basket', color: '#10b981' },
-    { id: 3, name: 'صيدلية', icon: 'cross.case', color: '#3b82f6' },
-    { id: 4, name: 'ملابس', icon: 'tshirt', color: '#8b5cf6' },
+    { id: 1, name: 'مطاعم', icon: 'fork.knife', color: '#8B4513', route: '/restaurants' },
+    { id: 2, name: 'بقالة', icon: 'basket', color: '#D2691E', route: '/category-stores?categoryId=2&categoryName=بقالة' },
+    { id: 3, name: 'صيدلية', icon: 'cross.case', color: '#F4A460', route: '/category-stores?categoryId=3&categoryName=صيدلية' },
+    { id: 4, name: 'ملابس', icon: 'tshirt', color: '#A0522D', route: '/category-stores?categoryId=4&categoryName=ملابس' },
+    { id: 5, name: 'إلكترونيات', icon: 'iphone', color: '#CD853F', route: '/category-stores?categoryId=5&categoryName=إلكترونيات' },
+    { id: 6, name: 'سيارات', icon: 'car', color: '#DEB887', route: '/category-stores?categoryId=6&categoryName=سيارات' },
+    { id: 7, name: 'عطور', icon: 'heart', color: '#8B4513', route: '/category-stores?categoryId=7&categoryName=عطور' },
+    { id: 8, name: 'كتب', icon: 'book', color: '#D2691E', route: '/category-stores?categoryId=8&categoryName=كتب' },
   ];
 
   const featuredStores = [
@@ -39,9 +43,9 @@ export default function HomeScreen() {
     router.replace('/auth');
   };
 
-  const handleCategoryPress = (categoryId: number) => {
-    console.log('Category pressed:', categoryId);
-    // يمكن إضافة منطق التصفية حسب الفئة هنا
+  const handleCategoryPress = (category: any) => {
+    console.log('Category pressed:', category.name);
+    router.push(category.route);
   };
 
   const handleStorePress = (storeId: number) => {
@@ -120,7 +124,7 @@ export default function HomeScreen() {
             <TouchableOpacity
               key={category.id}
               style={styles.categoryCard}
-              onPress={() => handleCategoryPress(category.id)}
+              onPress={() => handleCategoryPress(category)}
             >
               <View style={[styles.categoryIcon, { backgroundColor: category.color }]}>
                 <IconSymbol name={category.icon as any} size={24} color="#fff" />
@@ -398,8 +402,8 @@ const styles = StyleSheet.create({
   },
   categoryCard: {
     alignItems: 'center',
-    width: '48%',
-    paddingVertical: 20,
+    width: '23%',
+    paddingVertical: 16,
     marginBottom: 12,
     borderRadius: 16,
     backgroundColor: '#fff',
@@ -410,17 +414,18 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   categoryIcon: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
   },
   categoryName: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#374151',
     fontWeight: '500',
+    textAlign: 'center',
   },
   popularSection: {
     padding: 20,
