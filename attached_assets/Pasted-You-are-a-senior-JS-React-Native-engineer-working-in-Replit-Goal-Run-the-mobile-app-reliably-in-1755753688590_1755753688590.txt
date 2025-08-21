@@ -1,0 +1,54 @@
+You are a senior JS/React Native engineer working in Replit.
+
+Goal: Run the mobile app reliably in this repo WITHOUT any git prompts or pre-commit steps.
+
+Do the following, in order:
+
+1) Detect stack:
+   - If it's Expo (has expo in package.json deps OR app.json/app.config.* exists) => STACK=EXPO
+   - Else if react-native CLI (has react-native dep) => STACK=RNCLI
+   - Otherwise: report exact reason why detection failed and how to fix.
+
+2) Fix package.json "scripts":
+   - For EXPO:
+     Ensure scripts contain:
+       "start": "expo start --tunnel",
+       "android": "expo run:android",
+       "ios": "expo run:ios",
+       "web": "expo start --web"
+   - For RNCLI:
+     Ensure scripts contain:
+       "start": "react-native start",
+       "android": "react-native run-android",
+       "ios": "react-native run-ios"
+   - Keep existing scripts that are valid. Do NOT add any git/commit steps. Remove any prestart scripts that call git.
+
+3) Prevent git hooks/commit gating:
+   - If Husky or similar hooks enforce pre-commit/pre-push on "start", remove those hooks from the "start" path only.
+   - Do NOT run any "git commit" or "apply all" style commands. We only need to run the dev server.
+
+4) Install deps:
+   - Run: npm ci || npm install
+   - If EXPO and missing expo CLI, add dev dependency: "expo": keep existing version if present; otherwise use latest stable.
+   - If RNCLI and missing CLI, ensure "react-native" dep exists and Metro can run.
+
+5) Environment sanity:
+   - If .env or config is required for API_BASE_URL, read it and print which value will be used at runtime.
+   - For Next steps, just echo the value; do NOT commit secrets.
+
+6) Run the dev server:
+   - If EXPO: run `npm run start` (expo start --tunnel). Ensure QR/URL is shown in logs.
+   - If RNCLI: run `npm run start` to start Metro only (no device launch). Confirm Metro is listening.
+
+7) Output:
+   - Print a concise summary:
+     - Detected stack (EXPO or RNCLI)
+     - What scripts were added/changed
+     - Any hooks removed/bypassed
+     - The exact command used to start
+     - Final instructions to open the app (QR/URL or Metro URL)
+
+Constraints:
+- Do NOT pipe "echo y" into anything.
+- Do NOT auto-commit or push.
+- If something fails, show the failing command and the exact error snippet, then fix and retry once with a clear reason.
