@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   TextInput,
-  Dimensions
+  Dimensions,
+  Modal
 } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
@@ -18,6 +19,7 @@ const { width: screenWidth } = Dimensions.get('window');
 
 export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
   const categories = [
     { id: 1, name: 'مطاعم', icon: 'fork.knife', color: '#ef4444' },
@@ -68,7 +70,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity
           style={styles.profileButton}
-          onPress={() => router.push('/user-settings')}
+          onPress={() => setShowUserMenu(true)}
         >
           <IconSymbol name="person.circle.fill" size={32} color="#fff" />
         </TouchableOpacity>
@@ -174,6 +176,96 @@ export default function HomeScreen() {
         <Text style={styles.footerText}>القفة السودانية - دعم التجارة المحلية</Text>
         <Text style={styles.footerSubtext}>جميع الحقوق محفوظة © 2024</Text>
       </View>
+
+      {/* User Menu Modal */}
+      <Modal
+        visible={showUserMenu}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setShowUserMenu(false)}
+      >
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={() => setShowUserMenu(false)}
+        >
+          <View style={styles.userMenuContainer}>
+            <View style={styles.userMenuHeader}>
+              <View style={styles.userAvatar}>
+                <IconSymbol name="person.circle.fill" size={40} color="#8B4513" />
+              </View>
+              <View style={styles.userInfo}>
+                <Text style={styles.userName}>المستخدم</Text>
+                <Text style={styles.userEmail}>user@example.com</Text>
+              </View>
+            </View>
+
+            <View style={styles.userMenuItems}>
+              <TouchableOpacity
+                style={styles.userMenuItem}
+                onPress={() => {
+                  setShowUserMenu(false);
+                  router.push('/user-settings');
+                }}
+              >
+                <IconSymbol name="house.fill" size={20} color="#8B4513" />
+                <Text style={styles.userMenuItemText}>إعدادات الحساب</Text>
+                <IconSymbol name="chevron.right" size={16} color="#8B4513" />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.userMenuItem}
+                onPress={() => {
+                  setShowUserMenu(false);
+                  // إضافة منطق عرض الطلبات
+                }}
+              >
+                <IconSymbol name="paperplane.fill" size={20} color="#8B4513" />
+                <Text style={styles.userMenuItemText}>طلباتي</Text>
+                <IconSymbol name="chevron.right" size={16} color="#8B4513" />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.userMenuItem}
+                onPress={() => {
+                  setShowUserMenu(false);
+                  // إضافة منطق المفضلة
+                }}
+              >
+                <IconSymbol name="house.fill" size={20} color="#8B4513" />
+                <Text style={styles.userMenuItemText}>المفضلة</Text>
+                <IconSymbol name="chevron.right" size={16} color="#8B4513" />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.userMenuItem}
+                onPress={() => {
+                  setShowUserMenu(false);
+                  // إضافة منطق المساعدة
+                }}
+              >
+                <IconSymbol name="paperplane.fill" size={20} color="#8B4513" />
+                <Text style={styles.userMenuItemText}>المساعدة</Text>
+                <IconSymbol name="chevron.right" size={16} color="#8B4513" />
+              </TouchableOpacity>
+
+              <View style={styles.menuDivider} />
+
+              <TouchableOpacity
+                style={[styles.userMenuItem, styles.logoutMenuItem]}
+                onPress={() => {
+                  setShowUserMenu(false);
+                  handleLogout();
+                }}
+              >
+                <IconSymbol name="house.fill" size={20} color="#ef4444" />
+                <Text style={[styles.userMenuItemText, styles.logoutMenuText]}>تسجيل الخروج</Text>
+                <IconSymbol name="chevron.right" size={16} color="#ef4444" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     </ScrollView>
   );
 }
@@ -419,5 +511,86 @@ const styles = StyleSheet.create({
     color: '#94a3b8',
     fontSize: 14,
     textAlign: 'center',
+  },
+  // User Menu Styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    paddingTop: 50,
+    paddingRight: 20,
+  },
+  userMenuContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    width: 280,
+    maxHeight: '80%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  userMenuHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#F4A460',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+  },
+  userAvatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  userInfo: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 4,
+  },
+  userEmail: {
+    fontSize: 12,
+    color: '#fff',
+    opacity: 0.9,
+  },
+  userMenuItems: {
+    paddingVertical: 8,
+  },
+  userMenuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    gap: 12,
+  },
+  userMenuItemText: {
+    flex: 1,
+    fontSize: 14,
+    color: '#1e293b',
+    fontWeight: '500',
+  },
+  menuDivider: {
+    height: 1,
+    backgroundColor: '#e2e8f0',
+    marginHorizontal: 20,
+    marginVertical: 8,
+  },
+  logoutMenuItem: {
+    borderTopWidth: 1,
+    borderTopColor: '#fee2e2',
+    backgroundColor: '#fef2f2',
+  },
+  logoutMenuText: {
+    color: '#ef4444',
   },
 });
