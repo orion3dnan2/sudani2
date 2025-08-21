@@ -1,18 +1,18 @@
-
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  ScrollView, 
-  TouchableOpacity, 
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
   ImageBackground,
   TextInput,
-  Dimensions 
+  Dimensions
 } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { router } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -20,42 +20,17 @@ export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const categories = [
-    { id: 1, name: 'مطاعم', icon: 'house.fill', color: '#ef4444', stores: 23 },
-    { id: 2, name: 'عطور', icon: 'paperplane.fill', color: '#8b5cf6', stores: 15 },
-    { id: 3, name: 'حرف يدوية', icon: 'chevron.right', color: '#10b981', stores: 8 },
-    { id: 4, name: 'إلكترونيات', icon: 'house.fill', color: '#3b82f6', stores: 12 },
-    { id: 5, name: 'ملابس', icon: 'paperplane.fill', color: '#f59e0b', stores: 19 },
-    { id: 6, name: 'كتب', icon: 'chevron.right', color: '#06b6d4', stores: 6 },
+    { id: 1, name: 'مطاعم', icon: 'fork.knife', color: '#ef4444' },
+    { id: 2, name: 'بقالة', icon: 'basket', color: '#10b981' },
+    { id: 3, name: 'صيدلية', icon: 'cross.case', color: '#3b82f6' },
+    { id: 4, name: 'ملابس', icon: 'tshirt', color: '#8b5cf6' },
   ];
 
   const featuredStores = [
-    { 
-      id: 1, 
-      name: 'مطعم الأصالة', 
-      category: 'مطاعم', 
-      rating: 4.8, 
-      image: 'house.fill',
-      distance: '1.2 كم',
-      deliveryTime: '30-45 دقيقة'
-    },
-    { 
-      id: 2, 
-      name: 'عطور الجنة', 
-      category: 'عطور', 
-      rating: 4.9, 
-      image: 'paperplane.fill',
-      distance: '2.1 كم',
-      deliveryTime: '45-60 دقيقة'
-    },
-    { 
-      id: 3, 
-      name: 'حرف تراثية', 
-      category: 'حرف يدوية', 
-      rating: 4.7, 
-      image: 'chevron.right',
-      distance: '3.5 كم',
-      deliveryTime: '60-90 دقيقة'
-    },
+    { name: 'مطعم الأصالة', rating: 4.8, image: '🍽️' },
+    { name: 'بقالة السعد', rating: 4.6, image: '🛒' },
+    { name: 'صيدلية النور', rating: 4.9, image: '💊' },
+    { name: 'ملابس العز', rating: 4.7, image: '👕' },
   ];
 
   const handleLogout = () => {
@@ -81,130 +56,77 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header */}
-      <ThemedView style={styles.header}>
-        <View style={styles.headerContent}>
-          <View style={styles.headerText}>
-            <Text style={styles.welcomeText}>مرحباً بك</Text>
-            <Text style={styles.title}>سوق المحلي</Text>
-            <Text style={styles.subtitle}>اكتشف أفضل المتاجر المحلية</Text>
-          </View>
-          <View style={styles.headerActions}>
-            <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-              <IconSymbol name="chevron.right" size={16} color="#fff" />
-              <Text style={styles.logoutText}>خروج</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.profileIcon}>
-              <IconSymbol name="house.fill" size={20} color="#3b82f6" />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ThemedView>
-
+    <ScrollView style={styles.container}>
       {/* Hero Section */}
       <View style={styles.heroSection}>
-        <ImageBackground 
-          source={{ uri: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80' }}
+        <LinearGradient
+          colors={['#059669', '#10b981', '#34d399']}
           style={styles.backgroundImageContainer}
-          resizeMode="cover"
         >
-          <View style={styles.overlay} />
           <View style={styles.heroContent}>
-            <Text style={styles.heroTitle}>اكتشف متاجر مدينتك</Text>
+            <Text style={styles.heroTitle}>القفة السودانية</Text>
             <Text style={styles.heroSubtitle}>
-              تسوق من المتاجر المحلية واحصل على أفضل المنتجات بأسرع وقت
+              تسوق من أفضل المتاجر المحلية بضغطة واحدة
             </Text>
-            <View style={styles.actionButtons}>
-              <TouchableOpacity style={styles.primaryButton}>
-                <Text style={styles.primaryButtonText}>تصفح المتاجر</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.secondaryButton} onPress={handleMerchantSignup}>
-                <Text style={styles.secondaryButtonText}>انضم كتاجر</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              style={styles.primaryButton}
+              onPress={() => router.push('/restaurants')}
+            >
+              <Text style={styles.primaryButtonText}>ابدأ التسوق</Text>
+            </TouchableOpacity>
           </View>
-        </ImageBackground>
+        </LinearGradient>
       </View>
 
       {/* Search Section */}
       <View style={styles.searchSection}>
         <View style={styles.searchContainer}>
+          <IconSymbol name="magnifyingglass" size={20} color="#64748b" />
           <TextInput
             style={styles.searchInput}
             placeholder="ابحث عن متجر أو منتج..."
+            placeholderTextColor="#94a3b8"
             value={searchQuery}
             onChangeText={setSearchQuery}
             textAlign="right"
           />
-          <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-            <IconSymbol name="house.fill" size={20} color="#fff" />
-          </TouchableOpacity>
         </View>
       </View>
 
       {/* Categories */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>تصفح حسب الفئة</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoriesScroll}>
-          <View style={styles.categoriesContainer}>
-            {categories.map((category) => (
-              <TouchableOpacity 
-                key={category.id} 
-                style={styles.categoryCard}
-                onPress={() => handleCategoryPress(category.id)}
-              >
-                <View style={[styles.categoryIcon, { backgroundColor: `${category.color}20` }]}>
-                  <IconSymbol name={category.icon} size={24} color={category.color} />
-                </View>
-                <Text style={styles.categoryName}>{category.name}</Text>
-                <Text style={styles.categoryCount}>{category.stores} متجر</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </ScrollView>
+      <View style={styles.categoriesSection}>
+        <Text style={styles.sectionTitle}>التصنيفات</Text>
+        <View style={styles.categoriesGrid}>
+          {categories.map((category) => (
+            <TouchableOpacity
+              key={category.id}
+              style={styles.categoryCard}
+              onPress={() => handleCategoryPress(category.id)}
+            >
+              <View style={[styles.categoryIcon, { backgroundColor: category.color }]}>
+                <IconSymbol name={category.icon as any} size={24} color="#fff" />
+              </View>
+              <Text style={styles.categoryName}>{category.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
 
-      {/* Featured Stores */}
-      <View style={styles.section}>
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>المتاجر المميزة</Text>
-          <TouchableOpacity>
-            <Text style={styles.viewAllText}>عرض الكل</Text>
-          </TouchableOpacity>
-        </View>
-        
-        <View style={styles.storesContainer}>
-          {featuredStores.map((store) => (
-            <TouchableOpacity 
-              key={store.id} 
+      {/* Popular Stores */}
+      <View style={styles.popularSection}>
+        <Text style={styles.sectionTitle}>المتاجر المميزة</Text>
+        <View style={styles.storesGrid}>
+          {featuredStores.map((store, index) => (
+            <TouchableOpacity
+              key={index}
               style={styles.storeCard}
-              onPress={() => handleStorePress(store.id)}
+              onPress={() => handleStorePress(index)}
             >
-              <View style={styles.storeImageContainer}>
-                <View style={styles.storeImage}>
-                  <IconSymbol name={store.image} size={32} color="#3b82f6" />
-                </View>
-                <View style={styles.ratingBadge}>
-                  <IconSymbol name="house.fill" size={12} color="#f59e0b" />
-                  <Text style={styles.ratingText}>{store.rating}</Text>
-                </View>
-              </View>
-              
-              <View style={styles.storeInfo}>
-                <Text style={styles.storeName}>{store.name}</Text>
-                <Text style={styles.storeCategory}>{store.category}</Text>
-                
-                <View style={styles.storeDetails}>
-                  <View style={styles.storeDetailItem}>
-                    <IconSymbol name="paperplane.fill" size={14} color="#64748b" />
-                    <Text style={styles.storeDetailText}>{store.distance}</Text>
-                  </View>
-                  <View style={styles.storeDetailItem}>
-                    <IconSymbol name="chevron.right" size={14} color="#64748b" />
-                    <Text style={styles.storeDetailText}>{store.deliveryTime}</Text>
-                  </View>
-                </View>
+              <Text style={styles.storeEmoji}>{store.image}</Text>
+              <Text style={styles.storeName}>{store.name}</Text>
+              <View style={styles.ratingContainer}>
+                <IconSymbol name="star.fill" size={12} color="#fbbf24" />
+                <Text style={styles.rating}>{store.rating}</Text>
               </View>
             </TouchableOpacity>
           ))}
@@ -232,7 +154,7 @@ export default function HomeScreen() {
 
       {/* Footer */}
       <View style={styles.footer}>
-        <Text style={styles.footerText}>سوق المحلي - دعم التجارة المحلية</Text>
+        <Text style={styles.footerText}>القفة السودانية - دعم التجارة المحلية</Text>
         <Text style={styles.footerSubtext}>جميع الحقوق محفوظة © 2024</Text>
       </View>
     </ScrollView>
@@ -244,126 +166,46 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f8fafc',
   },
-  header: {
-    backgroundColor: '#1e293b',
-    paddingTop: 50,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  headerText: {
+  loadingContainer: {
     flex: 1,
-  },
-  welcomeText: {
-    color: '#94a3b8',
-    fontSize: 14,
-    marginBottom: 4,
-    textAlign: 'right',
-  },
-  title: {
-    color: '#fff',
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 4,
-    textAlign: 'right',
-  },
-  subtitle: {
-    color: '#94a3b8',
-    fontSize: 14,
-    textAlign: 'right',
-  },
-  headerActions: {
-    flexDirection: 'row',
-    gap: 8,
-    alignItems: 'center',
-  },
-  logoutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    backgroundColor: '#3b82f6',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  logoutText: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  profileIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#f1f5f9',
+    backgroundColor: '#f8fafc',
     justifyContent: 'center',
     alignItems: 'center',
   },
   heroSection: {
-    height: 300,
-    position: 'relative',
+    height: 250,
   },
   backgroundImageContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(30, 41, 59, 0.7)',
-  },
   heroContent: {
     alignItems: 'center',
     paddingHorizontal: 20,
-    zIndex: 1,
   },
   heroTitle: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: 'bold',
     color: '#fff',
     textAlign: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   heroSubtitle: {
     fontSize: 16,
-    color: '#cbd5e1',
+    color: '#fff',
     textAlign: 'center',
-    marginBottom: 30,
-    lineHeight: 24,
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    gap: 12,
+    marginBottom: 24,
+    opacity: 0.9,
   },
   primaryButton: {
-    backgroundColor: '#3b82f6',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
+    backgroundColor: '#fff',
+    paddingHorizontal: 32,
+    paddingVertical: 14,
     borderRadius: 25,
   },
   primaryButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  secondaryButton: {
-    backgroundColor: 'transparent',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 25,
-    borderWidth: 2,
-    borderColor: '#fff',
-  },
-  secondaryButtonText: {
-    color: '#fff',
+    color: '#059669',
     fontSize: 16,
     fontWeight: '600',
   },
@@ -371,177 +213,114 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: '#fff',
     marginHorizontal: 20,
-    marginTop: -30,
+    marginTop: -25,
     borderRadius: 16,
-    zIndex: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 5,
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  searchInput: {
-    flex: 1,
-    backgroundColor: '#f1f5f9',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
-  },
-  searchButton: {
-    backgroundColor: '#3b82f6',
-    width: 48,
-    height: 48,
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  section: {
-    marginTop: 32,
-    paddingHorizontal: 20,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#1e293b',
-    marginBottom: 16,
-    textAlign: 'right',
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16,
-  },
-  viewAllText: {
-    color: '#3b82f6',
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  categoriesScroll: {
-    marginLeft: -20,
-  },
-  categoriesContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 20,
-    gap: 16,
-  },
-  categoryCard: {
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 20,
-    width: 120,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
-    elevation: 3,
+    elevation: 4,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#f1f5f9',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 8,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#1e293b',
+    textAlign: 'right',
+  },
+  categoriesSection: {
+    padding: 20,
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#1e293b',
+    marginBottom: 16,
+  },
+  categoriesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  categoryCard: {
+    alignItems: 'center',
+    width: '48%',
+    paddingVertical: 20,
+    marginBottom: 12,
+    borderRadius: 16,
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   categoryIcon: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
   },
   categoryName: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#1e293b',
-    textAlign: 'center',
-    marginBottom: 4,
+    color: '#374151',
+    fontWeight: '500',
   },
-  categoryCount: {
-    fontSize: 12,
-    color: '#64748b',
-    textAlign: 'center',
+  popularSection: {
+    padding: 20,
   },
-  storesContainer: {
-    gap: 16,
+  storesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   storeCard: {
     backgroundColor: '#fff',
     borderRadius: 16,
     padding: 16,
-    flexDirection: 'row',
-    gap: 16,
+    width: '48%',
+    marginBottom: 12,
+    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
-  },
-  storeImageContainer: {
-    position: 'relative',
-  },
-  storeImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 12,
-    backgroundColor: '#f1f5f9',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  ratingBadge: {
-    position: 'absolute',
-    top: -8,
-    right: -8,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.05,
     shadowRadius: 4,
     elevation: 2,
   },
-  ratingText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#1e293b',
-  },
-  storeInfo: {
-    flex: 1,
-    justifyContent: 'space-between',
+  storeEmoji: {
+    fontSize: 32,
+    marginBottom: 8,
   },
   storeName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#1e293b',
-    marginBottom: 4,
-    textAlign: 'right',
-  },
-  storeCategory: {
     fontSize: 14,
-    color: '#64748b',
-    marginBottom: 8,
-    textAlign: 'right',
+    fontWeight: '600',
+    color: '#1e293b',
+    textAlign: 'center',
+    marginBottom: 4,
   },
-  storeDetails: {
-    gap: 4,
-  },
-  storeDetailItem: {
+  ratingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    justifyContent: 'flex-end',
+    gap: 4,
   },
-  storeDetailText: {
+  rating: {
     fontSize: 12,
-    color: '#64748b',
+    color: '#6b7280',
+    fontWeight: '500',
+  },
+  section: {
+    marginTop: 32,
+    paddingHorizontal: 20,
   },
   statsContainer: {
     flexDirection: 'row',
@@ -561,7 +340,7 @@ const styles = StyleSheet.create({
   statNumber: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#3b82f6',
+    color: '#059669',
     marginBottom: 4,
   },
   statLabel: {
