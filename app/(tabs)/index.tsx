@@ -60,7 +60,7 @@ export default function HomeScreen() {
       {/* Header Bar */}
       <View style={styles.headerBar}>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <IconSymbol name="arrow.right.square" size={20} color="#ef4444" />
+          <IconSymbol name="arrow.right.square" size={20} color="#fff" />
           <Text style={styles.logoutText}>خروج</Text>
         </TouchableOpacity>
         
@@ -70,14 +70,14 @@ export default function HomeScreen() {
           style={styles.profileButton} 
           onPress={() => router.push('/user-settings')}
         >
-          <IconSymbol name="person.circle.fill" size={28} color="#059669" />
+          <IconSymbol name="person.circle.fill" size={32} color="#fff" />
         </TouchableOpacity>
       </View>
 
       {/* Hero Section */}
       <View style={styles.heroSection}>
         <LinearGradient
-          colors={['#059669', '#10b981', '#34d399']}
+          colors={['#8B4513', '#D2691E', '#CD853F']}
           style={styles.backgroundImageContainer}
         >
           <View style={styles.heroContent}>
@@ -190,17 +190,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 16,
     paddingTop: 50,
-    backgroundColor: '#fff',
+    backgroundColor: '#8B4513',
     borderBottomWidth: 1,
-    borderBottomColor: '#e2e8f0',
+    borderBottomColor: '#A0522D',
   },
   appTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#1e293b',
+    color: '#fff',
   },
   profileButton: {
-    padding: 4,
+    backgroundColor: '#D2691E',
+    padding: 8,
+    borderRadius: 25,
+    borderWidth: 2,
+    borderColor: '#F4A460',
   },
   logoutButton: {
     flexDirection: 'row',
@@ -208,12 +212,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: '#fef2f2',
+    backgroundColor: 'rgba(255,255,255,0.2)',
     gap: 6,
   },
   logoutText: {
     fontSize: 14,
-    color: '#ef4444',
+    color: '#fff',
     fontWeight: '500',
   },
   loadingContainer: {
@@ -255,7 +259,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   primaryButtonText: {
-    color: '#059669',
+    color: '#8B4513',
     fontSize: 16,
     fontWeight: '600',
   },
