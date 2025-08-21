@@ -14,17 +14,20 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].brown.light,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
             position: 'absolute',
+            backgroundColor: Colors[colorScheme ?? 'light'].brown.primary,
           },
-          default: {},
+          default: {
+            backgroundColor: Colors[colorScheme ?? 'light'].brown.primary,
+          },
         }),
+        tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tabIconDefault,
       }}>
       <Tabs.Screen
         name="index"

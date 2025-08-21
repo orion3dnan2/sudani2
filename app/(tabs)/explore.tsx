@@ -4,16 +4,17 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Image } from 'rea
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Colors } from '@/constants/Colors';
 import { router } from 'expo-router';
 
 export default function ExploreScreen() {
   const categories = [
-    { id: 1, name: 'المطاعم', icon: 'house.fill', color: '#ef4444', count: '250+' },
-    { id: 2, name: 'المتاجر', icon: 'paperplane.fill', color: '#3b82f6', count: '180+' },
-    { id: 3, name: 'الخدمات', icon: 'chevron.right', color: '#10b981', count: '320+' },
-    { id: 4, name: 'التوظيف', icon: 'house.fill', color: '#f59e0b', count: '120+' },
-    { id: 5, name: 'العقارات', icon: 'paperplane.fill', color: '#8b5cf6', count: '85+' },
-    { id: 6, name: 'السيارات', icon: 'chevron.right', color: '#06b6d4', count: '95+' },
+    { id: 1, name: 'المطاعم', icon: 'house.fill', color: '#8B4513', count: '250+' },
+    { id: 2, name: 'المتاجر', icon: 'paperplane.fill', color: '#D2691E', count: '180+' },
+    { id: 3, name: 'الخدمات', icon: 'chevron.right', color: '#F4A460', count: '320+' },
+    { id: 4, name: 'التوظيف', icon: 'house.fill', color: '#A0522D', count: '120+' },
+    { id: 5, name: 'العقارات', icon: 'paperplane.fill', color: '#DEB887', count: '85+' },
+    { id: 6, name: 'السيارات', icon: 'chevron.right', color: '#CD853F', count: '95+' },
   ];
 
   const featuredStores = [
