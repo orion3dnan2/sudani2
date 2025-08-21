@@ -63,11 +63,11 @@ export default function HomeScreen() {
           <IconSymbol name="arrow.right.square" size={20} color="#fff" />
           <Text style={styles.logoutText}>خروج</Text>
         </TouchableOpacity>
-        
+
         <Text style={styles.appTitle}>القفة السودانية</Text>
-        
-        <TouchableOpacity 
-          style={styles.profileButton} 
+
+        <TouchableOpacity
+          style={styles.profileButton}
           onPress={() => router.push('/user-settings')}
         >
           <IconSymbol name="person.circle.fill" size={32} color="#fff" />
